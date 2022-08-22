@@ -9,7 +9,7 @@ PRECISION = 5
 WINDOWS = [(80, 50), (50, 80), (95, 60), (60, 95), (70, 70), (60, 60), (50, 50), (40, 40)]
 FNAME = "mosse_constants.hpp"
 CXX_NAMESPACE = "Mosse"
-CXX_NAMESPACE_BEGIN = "namespace %s {\n\n" % CXX_NAMESPACE
+CXX_NAMESPACE_BEGIN = "namespace %s {\n" % CXX_NAMESPACE
 CXX_NAMESPACE_END = "}  // namespace %s\n" % CXX_NAMESPACE
 ARRAY_2D_SUFFIX_ROWS = "Height"
 ARRAY_2D_SUFFIX_COLUMNS = "Width"
@@ -20,7 +20,7 @@ DEFINE_SENTINEL_PREFIX = "MOSSE"
 def make_define_sentinel(filename):
 	define_sentinel = "%s_%s_" % (DEFINE_SENTINEL_PREFIX, '_'.join(map(lambda s: s.upper(), (filename.split('.')))))
 
-	return "#if !defined(%s)\n#define %s\n" % (define_sentinel, define_sentinel), "#endif\n"
+	return "#if !defined(%s)\n#define %s\n\n" % (define_sentinel, define_sentinel), "#endif\n"
 
 
 def make_sized_prefix(prefix, rows, cols, suffix=None):
