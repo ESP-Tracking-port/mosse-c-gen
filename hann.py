@@ -16,9 +16,13 @@ def generate(rows, cols):
 
 
 def generate_format_iter(rows, cols):
+	yield common.CXX_NAMESPACE_BEGIN
+
 	prefix = "kHannWindow%dx%d" % (rows, cols)
 	generated = generate(rows, cols).reshape((1, rows * cols))[0]
+
 	yield ''.join(common.format_array_iter(prefix, generated, rows, cols, "float", False))
+	yield common.CXX_NAMESPACE_END
 
 
 def generate_format_savefile(rows, cols, fname):
