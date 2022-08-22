@@ -36,9 +36,9 @@ def generate_format_iter(rows, cols):
 	yield ''.join(common.format_array_iter(name, np.concatenate((generated.real, generated.imag)), 2, rows * cols, "float", False))
 
 
-def generate_format_savefile(rows, cols):
+def generate_format_savefile(rows, cols, fname):
 	for i in generate_format_iter(rows, cols):
-		common.append_file(i)
+		common.append_file(i, fname)
 
 
 if __name__ == "__main__":
