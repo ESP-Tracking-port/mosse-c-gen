@@ -1,5 +1,5 @@
 build:
 
 clean:
-	rm -rf Mosse/
+	rm -rf MosseTables/
 	rm -f *.hpp
