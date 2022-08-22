@@ -4,13 +4,13 @@ import gauss_kernel
 import hann
 
 
-GEN_DIR_PREFIX = "Mosse/"
+GEN_DIR_PREFIX = "MosseTables/"
 GAUSS_KERNEL_GENERATE = False
 HANN_PREFIX = GEN_DIR_PREFIX + "Hann"
 GAUSS_PREFIX = GEN_DIR_PREFIX + "GaussKernel"
 GAUSS_FFT_PREFIX = GEN_DIR_PREFIX + "GaussKernelFft"
 WINDOW_SIZES_ROWS_COLS = common.WINDOWS
-MAIN_HEADER_PREFIX = GEN_DIR_PREFIX + "MosseTables.hpp"
+MAIN_HEADER_PREFIX = "MosseTables.hpp"
 
 
 def _make_filename(prefix, windowsize):
