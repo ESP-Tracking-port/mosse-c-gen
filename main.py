@@ -2,6 +2,7 @@ import common
 import gauss_kernel_fft
 import gauss_kernel
 import hann
+import os
 
 
 GEN_DIR_PREFIX = "MosseTables/"
@@ -19,6 +20,10 @@ def _make_filename(prefix, windowsize):
 
 def main_header_generate_format_iter():
 	prefixes = [HANN_PREFIX, GAUSS_FFT_PREFIX]
+	define_sentinel = "MOSSE_%s_" % ('_'.join(map(lambda s: s.upper(), (MAIN_HEADER_PREFIX.split('.')))))
+
+	yield "#if !defined(%s)\n" % define_sentinel
+	yield "#define %s\n\n" % define_sentinel
 
 	if GAUSS_KERNEL_GENERATE:
 		prefixes.append(GAUSS_PREFIX)
@@ -27,7 +32,7 @@ def main_header_generate_format_iter():
 		for windowsize in WINDOW_SIZES_ROWS_COLS:
 			yield "#include \"%s\"\n" % _make_filename(prefix, windowsize)
 
-	yield "\n"
+	yield "\n#endif\n"
 
 
 def main_header_generate_format_savefile():
