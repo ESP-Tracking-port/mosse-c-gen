@@ -16,10 +16,13 @@ ARRAY_2D_SUFFIX_COLUMNS = "Width"
 ARRAY_1D_SUFFIX_LEN = "Length"
 
 
-def make_sized_prefix(prefix, rows, cols):
-	prefix = "%s%dx%d" % (prefix, rows, cols)
+def make_sized_prefix(prefix, rows, cols, suffix=None):
+	res = "%s%dx%d" % (prefix, rows, cols)
 
-	return prefix
+	if suffix is not None:
+		res += str(suffix)
+
+	return res
 
 
 def _format_complex(val):
