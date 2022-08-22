@@ -1,13 +1,7 @@
 import cv2
 import math
 import numpy as np
-import common
-
-
-SIGMA = 100.0
-IMSIZE_2D = (100, 100)
-IMCENTER = [i // 2 for i in IMSIZE_2D]
-PRECISION = 5
+from common import *
 
 
 def euclidean_imcenter_squared(row, col):
@@ -16,8 +10,9 @@ def euclidean_imcenter_squared(row, col):
 	return (row - row_center) ** 2 + (col - col_center) ** 2
 
 
-def generate_iter():
-	sz_row, sz_col = IMSIZE_2D
+def generate_iter(sz_row=None, sz_col=None):
+	if sz_row is None or sz_col is None:
+		sz_row, sz_col = IMSIZE_2D
 
 	for row in range(sz_row):
 		for col in range(sz_col):
@@ -32,7 +27,7 @@ def generate():
 
 
 def generate_format():
-	return ''.join(common.format_array_iter("kGaussKernel", generate_iter, *IMSIZE_2D))
+	return ''.join(format_array_iter("kGaussKernel", generate_iter, *IMSIZE_2D))
 
 
 def generate_format_savefile():
