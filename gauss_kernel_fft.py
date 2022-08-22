@@ -8,6 +8,7 @@ import common
 ARRAY_PREFIX = "kGaussKernelFft"
 ARRAY_SUFFIX_COMPLEX = "Complex"
 ARRAY_SUFFIX_IMREAL = "ImReal"
+COMPLEX_TYPESTR = "std::complex<float>"
 
 
 def test_fft():
@@ -36,7 +37,7 @@ def generate_format_iter(rows, cols):
 
 	generated = generate(rows, cols)
 
-	yield ''.join(common.format_array_iter(common.make_sized_prefix(ARRAY_PREFIX, cols, rows, ARRAY_SUFFIX_COMPLEX), generated, 1, rows * cols, "std::complex<float>", True))
+	yield ''.join(common.format_array_iter(common.make_sized_prefix(ARRAY_PREFIX, cols, rows, ARRAY_SUFFIX_COMPLEX), generated, 1, rows * cols, COMPLEX_TYPESTR, True))
 	yield ''.join(common.format_array_iter(common.make_sized_prefix(ARRAY_PREFIX, cols, rows, ARRAY_SUFFIX_IMREAL), np.concatenate((generated.real, generated.imag)), 2, rows * cols, "float", False))
 	yield common.CXX_NAMESPACE_END
 
