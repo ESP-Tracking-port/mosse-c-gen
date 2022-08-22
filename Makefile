@@ -2,4 +2,4 @@ build:
 
 clean:
 	rm -rf MosseTables/
-	rm -f *.hpp
+	rm -f *.hpp *.cpp
