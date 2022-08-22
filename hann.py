@@ -3,6 +3,7 @@ Generates Hann windows
 """
 import math
 import numpy as np
+import common
 
 
 def generate(rows, cols):
@@ -12,6 +13,17 @@ def generate(rows, cols):
 	vec_hor = np.fromiter(map(lambda i: generator_hor(i), range(cols)), float).reshape((1, cols))
 
 	return np.matmul(vec_vert, vec_hor)
+
+
+def generate_format_iter(rows, cols):
+	prefix = "kHannWindow%dx%d" % (rows, cols)
+	generated = generate(rows, cols).reshape((1, rows * cols))[0]
+	yield ''.join(common.format_array_iter(prefix, generated, rows, cols, "float", False))
+
+
+def generate_format_savefile(rows, cols):
+	for i in generate_format_iter(rows, cols):
+		common.append_file(i)
 
 
 if __name__ == "__main__":
