@@ -6,11 +6,10 @@ import getter_api
 import os
 
 
-GEN_DIR_PREFIX = "MosseTables/"
 GAUSS_KERNEL_GENERATE = False
-HANN_PREFIX = GEN_DIR_PREFIX + "Hann"
-GAUSS_PREFIX = GEN_DIR_PREFIX + "GaussKernel"
-GAUSS_FFT_PREFIX = GEN_DIR_PREFIX + "GaussKernelFft"
+HANN_PREFIX = "Hann"
+GAUSS_PREFIX = "GaussKernel"
+GAUSS_FFT_PREFIX = "GaussKernelFft"
 WINDOW_SIZES_ROWS_COLS = common.WINDOWS
 MAIN_HEADER_PREFIX = "MosseTables.hpp"
 
@@ -28,9 +27,11 @@ def main_header_generate_format_iter():
 	if GAUSS_KERNEL_GENERATE:
 		prefixes.append(GAUSS_PREFIX)
 
+	yield "#include <complex>\n"
+
 	for prefix in prefixes:
 		for windowsize in WINDOW_SIZES_ROWS_COLS:
-			yield "#include \"%s\"\n" % _make_filename(prefix, windowsize)
+			yield "#include \"%s%s\"\n" % (common.GEN_DIR_PREFIX, _make_filename(prefix, windowsize))
 
 	yield "\n"
 	yield define_after
@@ -39,7 +40,7 @@ def main_header_generate_format_iter():
 
 def main_header_generate_format_savefile():
 	generated = ''.join(main_header_generate_format_iter())
-	common.append_file(generated, MAIN_HEADER_PREFIX)
+	common.append_file(generated, common.GEN_DIR_PREFIX + MAIN_HEADER_PREFIX)
 
 
 def main():
@@ -50,8 +51,8 @@ def main():
 		gauss_kernel.generate_format_savefile(*common.IMSIZE_2D, GAUSS_PREFIX)
 
 	for window in WINDOW_SIZES_ROWS_COLS:
-		gauss_kernel_fft.generate_format_savefile(*window, _make_filename(GAUSS_FFT_PREFIX, window))
-		hann.generate_format_savefile(*window, _make_filename(HANN_PREFIX, window))
+		gauss_kernel_fft.generate_format_savefile(*window, _make_filename(common.GEN_DIR_PREFIX + GAUSS_FFT_PREFIX, window))
+		hann.generate_format_savefile(*window, _make_filename(common.GEN_DIR_PREFIX + HANN_PREFIX, window))
 
 
 if __name__ == "__main__":
