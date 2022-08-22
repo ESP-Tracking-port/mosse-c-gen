@@ -31,9 +31,9 @@ def generate_format(rows, cols):
 	return ''.join(format_array_iter("kGaussKernel", generate_iter(cols, rows), rows, cols, "float", False))
 
 
-def generate_format_savefile(rows, cols):
+def generate_format_savefile(rows, cols, fname):
 	formatted = generate_format(rows, cols)
-	append_file(formatted)
+	append_file(formatted, fname)
 
 
 def main():
