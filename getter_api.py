@@ -2,30 +2,70 @@ import common
 import main
 import hann
 import gauss_kernel_fft
+import pathlib
+
 
 HEADER_PREFIX = "MosseApi.hpp"
 CPP_PREFIX = "MosseApi.cpp"
 _NL = "\n"
 _DNL = "\n\n"
+SOURCE_PREFIX = "MosseApi"
+_MAPS_MARKER = "@MAPS@"
 
 
 def _header_generate_iter():
-	define_before, define_after = common.make_define_sentinel(HEADER_PREFIX)
-
-	yield define_before
-	yield "#include <utility>" + _NL
-	yield _NL
-	yield common.CXX_NAMESPACE_BEGIN
-	yield _NL
-	yield "float *getHann(unsigned rows, unsigned cols);" + _NL
-	yield "std::pair<float *, float *> getGaussKernelFft(unsigned rows, unsigned cols);" + _NL
-	yield "void getClosestWindow(unsigned &aRows, unsigned &aCols);" + _NL
-	yield _NL
-	yield common.CXX_NAMESPACE_END + _NL
-	yield define_after
+	with open(str(pathlib.Path() / "stub" / "MosseApi") + ".hpp.stub", 'r') as f:
+		yield f.read()
 
 
 def _cpp_generate_iter():
+	with open(str(pathlib.Path() / "stub" / "MosseApi") + ".cpp.stub", 'r') as f:
+		content = f.read()
+		maps = _cpp_generate_maps()
+		content = content.replace(_MAPS_MARKER, maps)
+
+		yield content
+
+def _cpp_generate_maps():
+	return ''.join(_cpp_generate_maps_iter())
+
+
+def _cpp_generate_maps_iter():
+
+	make_window_size_pair = lambda rows, cols: "std::array<unsigned, 2>{%d, %d}" % (rows, cols)
+	map_window_size_pair = map(lambda win: make_window_size_pair(*win), common.WINDOWS)
+	window_size_pairs = ',\n\t'.join(map_window_size_pair)
+
+	yield """\
+static constexpr auto kWindowSizes = {
+	%s
+};
+
+""" % window_size_pairs
+
+	make_hann_name = lambda rows, cols: "%s" % common.make_sized_prefix(hann.ARRAY_PREFIX, rows, cols)
+	map_hann_names = map(lambda win: make_hann_name(*win), common.WINDOWS)
+	hann_names = ',\n\t'.join(map_hann_names)
+
+	yield """\
+static constexpr auto kHannMap = {
+	%s
+};
+
+""" % hann_names
+
+	make_gauss_kernel_fft_name = lambda rows, cols: "std::pair<float *, float *>{&%s[0][0], &%s[1][0]}" % (common.make_sized_prefix(gauss_kernel_fft.ARRAY_PREFIX, rows, cols), common.make_sized_prefix(gauss_kernel_fft.ARRAY_PREFIX, rows, cols))
+	map_gauss_kernel_fft_names = map(lambda win: make_gauss_kernel_fft_name(*win), common.WINDOWS)
+	gauss_kernel_fft_names = ',\n\t'.join(map_gauss_kernel_fft_names)
+
+	yield """\
+static constexpr auto kGaussKernelFftMap = {
+	%s
+};
+""" % gauss_kernel_fft_names
+
+
+def _cpp_generate_iter_():
 	yield '#include "GetterApi.hpp"' + _NL
 	yield '#include "%s%s"' % (common.GEN_DIR_PREFIX, main.MAIN_HEADER_PREFIX) + _NL
 	yield '#include <array>' + _NL
@@ -33,34 +73,34 @@ def _cpp_generate_iter():
 	yield '#include <cstdlib>'
 	yield _DNL
 
-	make_window_size_pair = lambda rows, cols: "{%d, %d}" % (rows, cols)
+	make_window_size_pair = lambda rows, cols: "std::array<unsigned, 2>{%d, %d}" % (rows, cols)
 	map_window_size_pair = map(lambda win: make_window_size_pair(*win), common.WINDOWS)
 	window_size_pairs = ',\n\t'.join(map_window_size_pair)
 
 	yield """\
-static constexpr std::array<unsigned, 2> kWindowSizes[] = {
+static constexpr auto kWindowSizes = {
 	%s
 };
 
 """ % window_size_pairs
 
-	make_hann_name = lambda rows, cols: "&%s[0][0]" % common.make_sized_prefix(hann.ARRAY_PREFIX, rows, cols)
+	make_hann_name = lambda rows, cols: "%s" % common.make_sized_prefix(hann.ARRAY_PREFIX, rows, cols)
 	map_hann_names = map(lambda win: make_hann_name(*win), common.WINDOWS)
 	hann_names = ',\n\t'.join(map_hann_names)
 
 	yield """\
-static constexpr float *kHannMap[] = {
+static constexpr auto kHannMap = {
 	%s
 };
 
 """ % hann_names
 
-	make_gauss_kernel_fft_name = lambda rows, cols: "{&%s[0][0], &%s[1][0]}" % (common.make_sized_prefix(gauss_kernel_fft.ARRAY_PREFIX, rows, cols), common.make_sized_prefix(gauss_kernel_fft.ARRAY_PREFIX, rows, cols))
+	make_gauss_kernel_fft_name = lambda rows, cols: "std::pair<float *, float *>{&%s[0][0], &%s[1][0]}" % (common.make_sized_prefix(gauss_kernel_fft.ARRAY_PREFIX, rows, cols), common.make_sized_prefix(gauss_kernel_fft.ARRAY_PREFIX, rows, cols))
 	map_gauss_kernel_fft_names = map(lambda win: make_gauss_kernel_fft_name(*win), common.WINDOWS)
 	gauss_kernel_fft_names = ',\n\t'.join(map_gauss_kernel_fft_names)
 
 	yield """\
-static constexpr std::pair<float *, float *> kGaussKernelFftMap[] = {
+static constexpr auto kGaussKernelFftMap = {
 	%s
 };
 
