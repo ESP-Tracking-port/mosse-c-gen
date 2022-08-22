@@ -3,9 +3,9 @@ import math
 import numpy as np
 
 
-IMSIZE_2D = (600, 600)
-IMCENTER = [i // 2 for i in IMSIZE_2D]
 SIGMA = 100.0
+IMSIZE_2D = (100, 100)
+IMCENTER = [i // 2 for i in IMSIZE_2D]
 PRECISION = 5
 
 
@@ -28,7 +28,10 @@ def generate_iter():
 
 def format_iter():
 
-	yield 'constexpr float kGaussKernel[%d][%d] = {\n' % IMSIZE_2D
+	nrows, ncols = IMSIZE_2D
+	yield "constexpr unsigned kGaussKernelHeight = %d;  // Number of rows\n" % nrows
+	yield "constexpr unsigned kGaussKernelWidth = %d;  // Number of columns\n" % ncols
+	yield 'constexpr float kGaussKernel[kGaussKernelHeight][kGaussKernelWidth] = {\n'
 	yield '\t{'
 
 	for cnt, val in enumerate(generate_iter()):
@@ -39,7 +42,7 @@ def format_iter():
 		else:
 			yield ", "
 
-	yield '}\n}'
+	yield '}\n};'
 
 
 def generate():
