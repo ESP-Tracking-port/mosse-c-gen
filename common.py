@@ -3,6 +3,7 @@ IMSIZE_2D = (100, 100)
 IMCENTER = [i // 2 for i in IMSIZE_2D]
 PRECISION = 5
 WINDOWS = [(80, 50), (50, 80), (95, 60), (60, 95), (70, 70), (60, 60), (50, 50), (40, 40)]
+FNAME = "mosse_constants.hpp"
 
 
 def format_array_iter(prefix, generator, nrows, ncols):
