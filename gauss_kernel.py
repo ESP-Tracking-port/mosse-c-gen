@@ -28,7 +28,7 @@ def generate(rows, cols):
 
 
 def generate_format(rows, cols):
-	return ''.join(format_array_iter("kGaussKernel", generate_iter(cols, rows), rows, cols))
+	return ''.join(format_array_iter("kGaussKernel", generate_iter(cols, rows), rows, cols, "float", False))
 
 
 def generate_format_savefile(rows, cols):
