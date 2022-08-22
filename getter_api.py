@@ -1,4 +1,7 @@
 import common
+import main
+import hann
+import gauss_kernel_fft
 
 HEADER_PREFIX = "MosseApi.hpp"
 CPP_PREFIX = "MosseApi.cpp"
@@ -19,18 +22,85 @@ def _header_generate_iter():
 
 
 def _cpp_generate_iter():
-	yield '#include "GetterApi.hpp"' + _DNL
+	yield '#include "GetterApi.hpp"' + _NL
+	yield '#include "%s%s"' % (common.GEN_DIR_PREFIX, main.MAIN_HEADER_PREFIX) + _NL
+	yield '#include <array>'
+	yield _DNL
 
 	make_window_size_pair = lambda rows, cols: "{%d, %d}" % (rows, cols)
 	map_window_size_pair = map(lambda win: make_window_size_pair(*win), common.WINDOWS)
 	window_size_pairs = ',\n\t'.join(map_window_size_pair)
 
 	yield """\
-static constexpr unsigned kWindowSizes[][2] = {
+static constexpr std::array<unsigned, 2> kWindowSizes[] = {
 	%s
 };
+
 """ % window_size_pairs
 
+	make_hann_name = lambda rows, cols: "&%s[0][0]" % common.make_sized_prefix(hann.ARRAY_PREFIX, rows, cols)
+	map_hann_names = map(lambda win: make_hann_name(*win), common.WINDOWS)
+	hann_names = ',\n\t'.join(map_hann_names)
+
+	yield """\
+static constexpr float *kHannMap[] = {
+	%s
+};
+
+""" % hann_names
+
+	make_gauss_kernel_fft_name = lambda rows, cols: "{&%s[0][0], &%s[1][0]}" % (common.make_sized_prefix(gauss_kernel_fft.ARRAY_PREFIX, rows, cols), common.make_sized_prefix(gauss_kernel_fft.ARRAY_PREFIX, rows, cols))
+	map_gauss_kernel_fft_names = map(lambda win: make_gauss_kernel_fft_name(*win), common.WINDOWS)
+	gauss_kernel_fft_names = ',\n\t'.join(map_gauss_kernel_fft_names)
+
+	yield """\
+static constexpr std::pair<float *, float *> kGaussKernelFftMap[] = {
+	%s
+};
+
+""" % gauss_kernel_fft_names
+
+	yield """\
+static int checkWindowExists(unsigned aRows, unsigned aCols)
+{
+	int counter = 0;
+
+	for (const auto size : kWindowSizes) {
+		if (aRows == size[0] && aCols == size[1]) {
+			return counter;
+		}
+		counter += 1;
+	}
+
+	return -1;
+}
+
+"""
+
+	yield """\
+static float *getHann(unsigned aRows, unsigned aCols)
+{
+	int id = checkWindowExists(aRows, aCols);
+
+	if (id < 0) {
+		return nullptr;
+	}
+
+	return kHannMap[id];
+}
+
+std::pair<float *, float *> getGaussKernelFft(unsigned aRows, unsigned aCols)
+{
+	int id = checkWindowExists(aRows, aCols);
+
+	if (id < 0) {
+		return nullptr;
+	}
+
+	return kGaussKernelFftMap[id];
+}
+
+"""
 
 def _header_generate():
 	return ''.join(_header_generate_iter())
