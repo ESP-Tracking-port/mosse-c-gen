@@ -1,6 +1,7 @@
 import cv2
 import math
 import numpy as np
+import common
 
 
 SIGMA = 100.0
@@ -26,31 +27,12 @@ def generate_iter():
 			yield res
 
 
-def format_iter():
-
-	nrows, ncols = IMSIZE_2D
-	yield "constexpr unsigned kGaussKernelHeight = %d;  // Number of rows\n" % nrows
-	yield "constexpr unsigned kGaussKernelWidth = %d;  // Number of columns\n" % ncols
-	yield 'constexpr float kGaussKernel[kGaussKernelHeight][kGaussKernelWidth] = {\n'
-	yield '\t{'
-
-	for cnt, val in enumerate(generate_iter()):
-		yield "%.4ff" % val
-
-		if cnt % IMSIZE_2D[1] == 0 and cnt != 0:
-			yield "},\n\t{"
-		else:
-			yield ", "
-
-	yield '}\n};'
-
-
 def generate():
 	return np.fromiter(generate_iter(), float).reshape(IMSIZE_2D)
 
 
 def generate_format():
-	return ''.join(format_iter())
+	return ''.join(common.format_array_iter("kGaussKernel", generate_iter, *IMSIZE_2D))
 
 
 def generate_format_savefile():
