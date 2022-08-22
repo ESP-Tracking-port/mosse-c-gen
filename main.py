@@ -4,8 +4,12 @@ import gauss_kernel
 import hann
 
 
+GAUSS_KERNEL_GENERATE = False
+
+
 def main():
-	gauss_kernel.generate_format_savefile(*common.IMSIZE_2D, common.FNAME)
+	if GAUSS_KERNEL_GENERATE:
+		gauss_kernel.generate_format_savefile(*common.IMSIZE_2D, common.FNAME)
 
 	for window in common.WINDOWS:
 		gauss_kernel_fft.generate_format_savefile(*window, common.FNAME)
