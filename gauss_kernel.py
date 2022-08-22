@@ -5,6 +5,9 @@ from common import *
 import os
 
 
+ARRAY_PREFIX = "kGaussKernel"
+
+
 def euclidean_imcenter_squared(row, col, sz_row, sz_col):
 	row_center, col_center = sz_col // 2, sz_row // 2
 
@@ -28,14 +31,14 @@ def generate(rows, cols):
 
 
 def generate_format(rows, cols):
-	return ''.join(format_array_iter("kGaussKernel", generate_iter(cols, rows), rows, cols, "float", False))
+	return ''.join(format_array_iter(ARRAY_PREFIX, generate_iter(cols, rows), rows, cols, "float", False))
 
 
 def generate_format_savefile(rows, cols, fname):
-	append_file(formatted, CXX_NAMESPACE_BEGIN)
+	append_file(CXX_NAMESPACE_BEGIN, fname)
 	formatted = generate_format(rows, cols)
 	append_file(formatted, fname)
-	append_file(formatted, CXX_NAMESPACE_END)
+	append_file(CXX_NAMESPACE_END, fname)
 
 
 def main():
