@@ -1,0 +1,14 @@
+#if !defined(MOSSE_MOSSEAPI_HPP_)
+#define MOSSE_MOSSEAPI_HPP_
+
+#include <utility>
+
+namespace Mosse {
+
+float *getHann(unsigned rows, unsigned cols);
+std::pair<float *, float *> getGaussKernelFft(unsigned rows, unsigned cols);
+void getClosestWindow(unsigned &aRows, unsigned &aCols);
+
+}  // namespace Mosse
+
+#endif

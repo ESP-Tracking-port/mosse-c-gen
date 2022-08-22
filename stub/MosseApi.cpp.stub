@@ -1,0 +1,67 @@
+#include "GetterApi.hpp"
+#include "MosseTables/MosseTables.hpp"
+#include <array>
+#include <limits>
+#include <cstdlib>
+
+@MAPS@
+
+void getClosestWindow(unsigned &aRows, unsigned &aCols)
+{
+	auto prevDiff = std::numeric_limits<unsigned>::max();
+	const auto area = aRows * aCols;
+	int minCounter = 0;
+	int counter = 0;
+
+	for (const window : kWindowSizes) {
+		auto diff = abs(window[0] * window[1] - area);
+
+		if (diff < prevDiff) {
+			prevDiff = diff;
+			minCounter = counter;
+		}
+
+		++counter;
+	}
+
+	aRows = kWindowSizes[counter][0];
+	aCols = kWindowSizes[counter][1];
+}
+
+static int checkWindowExists(unsigned aRows, unsigned aCols)
+{
+	int counter = 0;
+
+	for (const auto size : kWindowSizes) {
+		if (aRows == size[0] && aCols == size[1]) {
+			return counter;
+		}
+
+		counter += 1;
+	}
+
+	return -1;
+}
+
+static float *getHann(unsigned aRows, unsigned aCols)
+{
+	int id = checkWindowExists(aRows, aCols);
+
+	if (id < 0) {
+		return nullptr;
+	}
+
+	return kHannMap[id];
+}
+
+std::pair<float *, float *> getGaussKernelFft(unsigned aRows, unsigned aCols)
+{
+	int id = checkWindowExists(aRows, aCols);
+
+	if (id < 0) {
+		return {nullptr, nullptr};
+	}
+
+	return kGaussKernelFftMap[id];
+}
+
