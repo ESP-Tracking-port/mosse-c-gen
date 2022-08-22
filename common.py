@@ -15,6 +15,7 @@ ARRAY_2D_SUFFIX_ROWS = "Height"
 ARRAY_2D_SUFFIX_COLUMNS = "Width"
 ARRAY_1D_SUFFIX_LEN = "Length"
 DEFINE_SENTINEL_PREFIX = "MOSSE"
+GEN_DIR_PREFIX = "MosseTables/"
 
 
 def make_define_sentinel(filename):
