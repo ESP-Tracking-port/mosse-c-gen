@@ -14,6 +14,7 @@ CXX_NAMESPACE_END = "}  // namespace %s\n" % CXX_NAMESPACE
 ARRAY_2D_SUFFIX_ROWS = "Height"
 ARRAY_2D_SUFFIX_COLUMNS = "Width"
 ARRAY_1D_SUFFIX_LEN = "Length"
+DEFINE_SENTINEL_PREFIX = "MOSSE"
 
 
 def make_sized_prefix(prefix, rows, cols, suffix=None):
