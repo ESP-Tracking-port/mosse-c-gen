@@ -14,7 +14,9 @@ def _header_generate_iter():
 
 	yield define_before
 	yield "#include <utility>" + _NL
+	yield _NL
 	yield common.CXX_NAMESPACE_BEGIN
+	yield _NL
 	yield "float *getHann(unsigned rows, unsigned cols);" + _NL
 	yield "std::pair<float *, float *> getGaussKernelFft(unsigned rows, unsigned cols);" + _DNL
 	yield common.CXX_NAMESPACE_END + _NL
