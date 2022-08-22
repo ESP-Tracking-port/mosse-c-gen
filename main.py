@@ -20,10 +20,10 @@ def _make_filename(prefix, windowsize):
 
 def main_header_generate_format_iter():
 	prefixes = [HANN_PREFIX, GAUSS_FFT_PREFIX]
-	define_sentinel = "%s_%s_" % (common.DEFINE_SENTINEL_PREFIX, '_'.join(map(lambda s: s.upper(), (MAIN_HEADER_PREFIX.split('.')))))
+	define_before, define_after = common.make_define_sentinel(MAIN_HEADER_PREFIX)
 
-	yield "#if !defined(%s)\n" % define_sentinel
-	yield "#define %s\n\n" % define_sentinel
+	yield define_before
+	yield "\n\n"
 
 	if GAUSS_KERNEL_GENERATE:
 		prefixes.append(GAUSS_PREFIX)
@@ -32,7 +32,9 @@ def main_header_generate_format_iter():
 		for windowsize in WINDOW_SIZES_ROWS_COLS:
 			yield "#include \"%s\"\n" % _make_filename(prefix, windowsize)
 
-	yield "\n#endif\n"
+	yield "\n"
+	yield define_after
+	yield "\n"
 
 
 def main_header_generate_format_savefile():
