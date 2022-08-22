@@ -1,0 +1,4 @@
+build:
+
+clean:
+	- rm *.hpp
