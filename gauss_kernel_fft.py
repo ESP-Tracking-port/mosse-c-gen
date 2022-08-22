@@ -27,6 +27,8 @@ def generate(rows, cols):
 
 
 def generate_format_iter(rows, cols):
+	yield common.CXX_NAMESPACE_BEGIN
+
 	generated = generate(rows, cols)
 
 	name = 'kGaussKernel%dx%dFftComplex' % (cols, rows)
@@ -34,6 +36,8 @@ def generate_format_iter(rows, cols):
 
 	name = 'kGaussKernel%dx%dFftImReal' % (cols, rows)
 	yield ''.join(common.format_array_iter(name, np.concatenate((generated.real, generated.imag)), 2, rows * cols, "float", False))
+
+	yield common.CXX_NAMESPACE_END
 
 
 def generate_format_savefile(rows, cols, fname):
