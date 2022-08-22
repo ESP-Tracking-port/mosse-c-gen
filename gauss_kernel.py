@@ -32,8 +32,10 @@ def generate_format(rows, cols):
 
 
 def generate_format_savefile(rows, cols, fname):
+	append_file(formatted, CXX_NAMESPACE_BEGIN)
 	formatted = generate_format(rows, cols)
 	append_file(formatted, fname)
+	append_file(formatted, CXX_NAMESPACE_END)
 
 
 def main():
