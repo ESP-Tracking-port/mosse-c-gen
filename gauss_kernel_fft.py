@@ -5,6 +5,11 @@ import gauss_kernel
 import common
 
 
+ARRAY_PREFIX = "kGaussKernelFft"
+ARRAY_SUFFIX_COMPLEX = "Complex"
+ARRAY_SUFFIX_IMREAL = "ImReal"
+
+
 def test_fft():
 	a = [random.random() for _ in range(100)]
 	b = [random.random() for _ in range(10)] + a[10:30]
@@ -31,10 +36,10 @@ def generate_format_iter(rows, cols):
 
 	generated = generate(rows, cols)
 
-	name = 'kGaussKernel%dx%dFftComplex' % (cols, rows)
+	name = '%s%dx%d%s' % (ARRAY_PREFIX, cols, rows, ARRAY_SUFFIX_COMPLEX)
 	yield ''.join(common.format_array_iter(name, generated, 1, rows * cols, "std::complex<float>", True))
 
-	name = 'kGaussKernel%dx%dFftImReal' % (cols, rows)
+	name = '%s%dx%d%s' % (ARRAY_PREFIX, cols, rows, ARRAY_SUFFIX_IMREAL)
 	yield ''.join(common.format_array_iter(name, np.concatenate((generated.real, generated.imag)), 2, rows * cols, "float", False))
 
 	yield common.CXX_NAMESPACE_END
