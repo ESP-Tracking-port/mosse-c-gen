@@ -18,7 +18,9 @@ def _header_generate_iter():
 	yield common.CXX_NAMESPACE_BEGIN
 	yield _NL
 	yield "float *getHann(unsigned rows, unsigned cols);" + _NL
-	yield "std::pair<float *, float *> getGaussKernelFft(unsigned rows, unsigned cols);" + _DNL
+	yield "std::pair<float *, float *> getGaussKernelFft(unsigned rows, unsigned cols);" + _NL
+	yield "void getClosestWindow(unsigned &aRows, unsigned &aCols);" + _NL
+	yield _NL
 	yield common.CXX_NAMESPACE_END + _NL
 	yield define_after
 
@@ -26,7 +28,9 @@ def _header_generate_iter():
 def _cpp_generate_iter():
 	yield '#include "GetterApi.hpp"' + _NL
 	yield '#include "%s%s"' % (common.GEN_DIR_PREFIX, main.MAIN_HEADER_PREFIX) + _NL
-	yield '#include <array>'
+	yield '#include <array>' + _NL
+	yield '#include <limits>' + _NL
+	yield '#include <cstdlib>'
 	yield _DNL
 
 	make_window_size_pair = lambda rows, cols: "{%d, %d}" % (rows, cols)
@@ -63,6 +67,31 @@ static constexpr std::pair<float *, float *> kGaussKernelFftMap[] = {
 """ % gauss_kernel_fft_names
 
 	yield """\
+void getClosestWindow(unsigned &aRows, unsigned &aCols)
+{
+	auto prevDiff = std::numeric_limits<unsigned>::max();
+	const auto area = aRows * aCols;
+	int minCounter = 0;
+	int counter = 0;
+
+	for (const window : kWindowSizes) {
+		auto diff = abs(window[0] * window[1] - area);
+
+		if (diff < prevDiff) {
+			prevDiff = diff;
+			minCounter = counter;
+		}
+
+		++counter;
+	}
+
+	aRows = kWindowSizes[counter][0];
+	aCols = kWindowSizes[counter][1];
+}
+
+"""
+
+	yield """\
 static int checkWindowExists(unsigned aRows, unsigned aCols)
 {
 	int counter = 0;
@@ -71,6 +100,7 @@ static int checkWindowExists(unsigned aRows, unsigned aCols)
 		if (aRows == size[0] && aCols == size[1]) {
 			return counter;
 		}
+
 		counter += 1;
 	}
 
