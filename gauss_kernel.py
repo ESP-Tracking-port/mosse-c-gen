@@ -24,11 +24,11 @@ def generate_iter(sz_row=None, sz_col=None):
 
 
 def generate(rows, cols):
-	return np.fromiter(generate_iter(cols, rols), float).reshape((rows, cols))
+	return np.fromiter(generate_iter(cols, rows), float).reshape((rows, cols))
 
 
 def generate_format(rows, cols):
-	return ''.join(format_array_iter("kGaussKernel", generate_iter, rows, cols))
+	return ''.join(format_array_iter("kGaussKernel", generate_iter(cols, rows), rows, cols))
 
 
 def generate_format_savefile(rows, cols):
