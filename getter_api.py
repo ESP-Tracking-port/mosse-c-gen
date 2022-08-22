@@ -94,7 +94,7 @@ std::pair<float *, float *> getGaussKernelFft(unsigned aRows, unsigned aCols)
 	int id = checkWindowExists(aRows, aCols);
 
 	if (id < 0) {
-		return nullptr;
+		return {nullptr, nullptr};
 	}
 
 	return kGaussKernelFftMap[id];
