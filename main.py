@@ -2,6 +2,7 @@ import common
 import gauss_kernel_fft
 import gauss_kernel
 import hann
+import getter_api
 import os
 
 
@@ -23,7 +24,6 @@ def main_header_generate_format_iter():
 	define_before, define_after = common.make_define_sentinel(MAIN_HEADER_PREFIX)
 
 	yield define_before
-	yield "\n"
 
 	if GAUSS_KERNEL_GENERATE:
 		prefixes.append(GAUSS_PREFIX)
@@ -44,6 +44,7 @@ def main_header_generate_format_savefile():
 
 def main():
 	main_header_generate_format_savefile()
+	getter_api.generate_format_savefile()
 
 	if GAUSS_KERNEL_GENERATE:
 		gauss_kernel.generate_format_savefile(*common.IMSIZE_2D, GAUSS_PREFIX)
