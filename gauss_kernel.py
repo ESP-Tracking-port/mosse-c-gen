@@ -5,8 +5,8 @@ from common import *
 import os
 
 
-def euclidean_imcenter_squared(row, col):
-	row_center, col_center = row // 2, col // 2
+def euclidean_imcenter_squared(row, col, sz_row, sz_col):
+	row_center, col_center = sz_col // 2, sz_row // 2
 
 	return (row - row_center) ** 2 + (col - col_center) ** 2
 
@@ -17,7 +17,7 @@ def generate_iter(sz_row=None, sz_col=None):
 
 	for row in range(sz_row):
 		for col in range(sz_col):
-			center_squared = euclidean_imcenter_squared(row, col)
+			center_squared = euclidean_imcenter_squared(row, col, sz_row, sz_col)
 			res = math.exp(center_squared / (-2.0 * SIGMA))
 
 			yield res
@@ -33,7 +33,7 @@ def generate_format(rows, cols):
 
 def generate_format_savefile(rows, cols):
 	formatted = generate_format(rows, cols)
-	fname = "gauss_kernel_%dx%d.hpp" % (cols, rows)
+	fname = FNAME
 
 	if not os.path.exists(fname):
 		with open(fname, 'w') as f:
