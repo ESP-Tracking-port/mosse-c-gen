@@ -6,6 +6,9 @@ import numpy as np
 import common
 
 
+ARRAY_PREFIX = "kHann"
+
+
 def generate(rows, cols):
 	generator_vert = lambda i: 0.5 * (1 - math.cos(2 * math.pi * i / (rows - 1)))
 	vec_vert = np.fromiter(map(lambda i: generator_vert(i), range(rows)), float).reshape((rows, 1))
@@ -18,7 +21,7 @@ def generate(rows, cols):
 def generate_format_iter(rows, cols):
 	yield common.CXX_NAMESPACE_BEGIN
 
-	prefix = "kHannWindow%dx%d" % (rows, cols)
+	prefix = "%s%dx%d" % (ARRAY_PREFIX, rows, cols)
 	generated = generate(rows, cols).reshape((1, rows * cols))[0]
 
 	yield ''.join(common.format_array_iter(prefix, generated, rows, cols, "float", False))
