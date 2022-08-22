@@ -1,4 +1,4 @@
 build:
 
 clean:
-	- rm *.hpp
+	rm -f *.hpp
