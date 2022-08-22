@@ -8,6 +8,9 @@ IMCENTER = [i // 2 for i in IMSIZE_2D]
 PRECISION = 5
 WINDOWS = [(80, 50), (50, 80), (95, 60), (60, 95), (70, 70), (60, 60), (50, 50), (40, 40)]
 FNAME = "mosse_constants.hpp"
+CXX_NAMESPACE = "Mosse"
+CXX_NAMESPACE_BEGIN = "namespace %s {\n\n" % CXX_NAMESPACE
+CXX_NAMESPACE_END = "}  // namespace %s\n" % CXX_NAMESPACE
 
 
 def _format_complex(val):
