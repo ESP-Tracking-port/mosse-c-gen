@@ -8,31 +8,39 @@ WINDOWS = [(80, 50), (50, 80), (95, 60), (60, 95), (70, 70), (60, 60), (50, 50),
 FNAME = "mosse_constants.hpp"
 
 
-def format_array_iter(prefix, generator, nrows, ncols):
+def _format_complex(val):
+	return
+
+def format_array_iter(prefix, generator, nrows, ncols, typestr, isexplicitconstr):
+	if isexplicitconstr:
+		fmt_cb = lambda v: "%s(%.4f, %.4f)" % (typestr, v.real, v.imag)
+	else:
+		fmt_cb = lambda v: "%.4f" % v
+
 	if nrows > 1:
 		yield "constexpr unsigned %sHeight = %d;  // Number of rows\n" % (prefix, nrows)
 		yield "constexpr unsigned %sWidth = %d;  // Number of columns\n" % (prefix, ncols)
-		yield 'constexpr float %s[%sHeight][%sWidth] = {\n' % (prefix, prefix, prefix)
+		yield 'constexpr %s %s[%sHeight][%sWidth] = {\n' % (typestr, prefix, prefix, prefix)
 		yield '\t{'
 
 		for cnt, val in enumerate(generator):
-			yield "%.4ff" % val
+			yield fmt_cb(val)
 
 			if cnt % ncols == 0 and cnt != 0:
 				yield "},\n\t{"
 			else:
 				yield ", "
 
-		yield '}\n};'
+		yield '}\n};\n\n'
 	else:
 		yield "constexpr unsigned %sLength = %d;\n" % (prefix, ncols)
-		yield 'constexpr float %s[%sLength] = {' % (prefix, prefix)
+		yield 'constexpr %s %s[%sLength] = {' % (typestr, prefix, prefix)
 
 		for cnt, val in enumerate(generator):
-			yield "%.4ff" % val
+			yield fmt_cb(val)
 			yield ", "
 
-		yield '};\n'
+		yield '};\n\n'
 
 
 def append_file(appendix, fname=FNAME):
