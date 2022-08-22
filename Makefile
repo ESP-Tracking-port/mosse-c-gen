@@ -1,4 +1,4 @@
 build:
 
 clean:
-	rm -f *.hpp
+	rm -rf Mosse/
