@@ -20,7 +20,7 @@ DEFINE_SENTINEL_PREFIX = "MOSSE"
 def make_define_sentinel(filename):
 	define_sentinel = "%s_%s_" % (DEFINE_SENTINEL_PREFIX, '_'.join(map(lambda s: s.upper(), (filename.split('.')))))
 
-	return "#if !defined(%s)\n#define %s" % (define_sentinel, define_sentinel), "#endif"
+	return "#if !defined(%s)\n#define %s\n" % (define_sentinel, define_sentinel), "#endif\n"
 
 
 def make_sized_prefix(prefix, rows, cols, suffix=None):
