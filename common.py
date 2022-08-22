@@ -26,12 +26,11 @@ def format_array_iter(prefix, generator, nrows, ncols, typestr, isexplicitconstr
 		yield '\t{'
 
 		for cnt, val in enumerate(generator):
-			yield fmt_cb(val)
-
 			if cnt % ncols == 0 and cnt != 0:
 				yield "},\n\t{"
-			else:
-				yield ", "
+
+			yield fmt_cb(val)
+			yield ", "
 
 		yield '}\n};\n\n'
 	else:
