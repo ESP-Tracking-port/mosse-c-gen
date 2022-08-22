@@ -23,7 +23,7 @@ def main_header_generate_format_iter():
 	define_before, define_after = common.make_define_sentinel(MAIN_HEADER_PREFIX)
 
 	yield define_before
-	yield "\n\n"
+	yield "\n"
 
 	if GAUSS_KERNEL_GENERATE:
 		prefixes.append(GAUSS_PREFIX)
