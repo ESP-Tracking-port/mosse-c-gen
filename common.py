@@ -11,6 +11,9 @@ FNAME = "mosse_constants.hpp"
 CXX_NAMESPACE = "Mosse"
 CXX_NAMESPACE_BEGIN = "namespace %s {\n\n" % CXX_NAMESPACE
 CXX_NAMESPACE_END = "}  // namespace %s\n" % CXX_NAMESPACE
+ARRAY_2D_SUFFIX_ROWS = "Height"
+ARRAY_2D_SUFFIX_COLUMNS = "Width"
+ARRAY_1D_SUFFIX_LEN = "Length"
 
 
 def _format_complex(val):
@@ -23,9 +26,9 @@ def format_array_iter(prefix, generator, nrows, ncols, typestr, isexplicitconstr
 		fmt_cb = lambda v: "%.4f" % v
 
 	if nrows > 1:
-		yield "constexpr unsigned %sHeight = %d;  // Number of rows\n" % (prefix, nrows)
-		yield "constexpr unsigned %sWidth = %d;  // Number of columns\n" % (prefix, ncols)
-		yield 'constexpr %s %s[%sHeight][%sWidth] = {\n' % (typestr, prefix, prefix, prefix)
+		yield "constexpr unsigned %s%s = %d;  // Number of rows\n" % (prefix, ARRAY_2D_SUFFIX_ROWS, nrows)
+		yield "constexpr unsigned %s%s = %d;  // Number of columns\n" % (prefix, ARRAY_2D_SUFFIX_COLUMNS, ncols)
+		yield 'constexpr %s %s[%s%s][%s%s] = {\n' % (typestr, prefix, prefix, ARRAY_2D_SUFFIX_ROWS, prefix, ARRAY_2D_SUFFIX_COLUMNS)
 		yield '\t{'
 
 		for cnt, val in enumerate(generator):
@@ -37,8 +40,8 @@ def format_array_iter(prefix, generator, nrows, ncols, typestr, isexplicitconstr
 
 		yield '}\n};\n\n'
 	else:
-		yield "constexpr unsigned %sLength = %d;\n" % (prefix, ncols)
-		yield 'constexpr %s %s[%sLength] = {' % (typestr, prefix, prefix)
+		yield "constexpr unsigned %s%s = %d;\n" % (prefix, ARRAY_1D_SUFFIX_LEN, ncols)
+		yield 'constexpr %s %s[%s%s] = {' % (typestr, prefix, prefix, ARRAY_1D_SUFFIX_LEN)
 
 		for cnt, val in enumerate(generator):
 			yield fmt_cb(val)
