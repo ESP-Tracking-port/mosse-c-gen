@@ -33,14 +33,7 @@ def generate_format(rows, cols):
 
 def generate_format_savefile(rows, cols):
 	formatted = generate_format(rows, cols)
-	fname = FNAME
-
-	if not os.path.exists(fname):
-		with open(fname, 'w') as f:
-			pass
-
-	with open(fname, "a") as f:
-		f.write(generate_format(rows, cols))
+	append_file(formatted)
 
 
 if __name__ == "__main__":
