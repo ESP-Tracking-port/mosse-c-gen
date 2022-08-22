@@ -36,5 +36,9 @@ def generate_format_savefile(rows, cols):
 	append_file(formatted)
 
 
-if __name__ == "__main__":
+def main():
 	generate_format_savefile(*IMSIZE_2D)
+
+
+if __name__ == "__main__":
+	main()
