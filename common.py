@@ -1,3 +1,5 @@
+import os
+
 SIGMA = 100.0
 IMSIZE_2D = (100, 100)
 IMCENTER = [i // 2 for i in IMSIZE_2D]
@@ -31,3 +33,13 @@ def format_array_iter(prefix, generator, nrows, ncols):
 			yield ", "
 
 		yield '};\n'
+
+
+def append_file(appendix, fname=FNAME):
+
+	if not os.path.exists(fname):
+		with open(fname, 'w') as f:
+			pass
+
+	with open(fname, "a") as f:
+		f.write(appendix)
