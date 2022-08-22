@@ -1,4 +1,6 @@
 import os
+import pathlib
+
 
 SIGMA = 100.0
 IMSIZE_2D = (100, 100)
@@ -46,6 +48,12 @@ def format_array_iter(prefix, generator, nrows, ncols, typestr, isexplicitconstr
 def append_file(appendix, fname=FNAME):
 
 	if not os.path.exists(fname):
+		mode = 0o774
+		path = pathlib.Path(str(fname)).parent.resolve()
+
+		if pathlib.Path(__file__).parent.resolve() != path and not os.path.exists(path):
+			os.makedirs(str(path), mode)
+
 		with open(fname, 'w') as f:
 			pass
 
