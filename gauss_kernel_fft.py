@@ -36,12 +36,8 @@ def generate_format_iter(rows, cols):
 
 	generated = generate(rows, cols)
 
-	name = '%s%dx%d%s' % (ARRAY_PREFIX, cols, rows, ARRAY_SUFFIX_COMPLEX)
-	yield ''.join(common.format_array_iter(name, generated, 1, rows * cols, "std::complex<float>", True))
-
-	name = '%s%dx%d%s' % (ARRAY_PREFIX, cols, rows, ARRAY_SUFFIX_IMREAL)
-	yield ''.join(common.format_array_iter(name, np.concatenate((generated.real, generated.imag)), 2, rows * cols, "float", False))
-
+	yield ''.join(common.format_array_iter(common.make_sized_prefix(ARRAY_PREFIX, cols, rows, ARRAY_SUFFIX_COMPLEX), generated, 1, rows * cols, "std::complex<float>", True))
+	yield ''.join(common.format_array_iter(common.make_sized_prefix(ARRAY_PREFIX, cols, rows, ARRAY_SUFFIX_IMREAL), np.concatenate((generated.real, generated.imag)), 2, rows * cols, "float", False))
 	yield common.CXX_NAMESPACE_END
 
 
