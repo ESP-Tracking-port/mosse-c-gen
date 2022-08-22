@@ -15,7 +15,7 @@ def format_array_iter(prefix, generator, nrows, ncols):
 		yield 'constexpr float %s[%sHeight][%sWidth] = {\n' % (prefix, prefix, prefix)
 		yield '\t{'
 
-		for cnt, val in enumerate(generator()):
+		for cnt, val in enumerate(generator):
 			yield "%.4ff" % val
 
 			if cnt % ncols == 0 and cnt != 0:
@@ -25,10 +25,10 @@ def format_array_iter(prefix, generator, nrows, ncols):
 
 		yield '}\n};'
 	else:
-		yield "constexpr unsigned %sLength = %d;  //\n" % (prefix, ncols)
+		yield "constexpr unsigned %sLength = %d;\n" % (prefix, ncols)
 		yield 'constexpr float %s[%sLength] = {' % (prefix, prefix)
 
-		for cnt, val in enumerate(generator()):
+		for cnt, val in enumerate(generator):
 			yield "%.4ff" % val
 			yield ", "
 
