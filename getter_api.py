@@ -61,7 +61,7 @@ static constexpr auto kWindowSizes = makeArray(
 
 """ % window_size_pairs
 
-	hann_names = tabulated_list_delimiter.join(_get_name_list_windows_iter(hann.ARRAY_PREFIX))
+	hann_names = tabulated_list_delimiter.join(_get_name_list_windows_iter(hann.ARRAY_PREFIX, common.ARRAY_SUFFIX_RAW))
 
 	yield """\
 static constexpr auto kHannMap = makeArray(
@@ -70,7 +70,9 @@ static constexpr auto kHannMap = makeArray(
 
 """ % hann_names
 
-	gauss_kernel_fft_names = tabulated_list_delimiter.join(_get_name_list_windows_iter(gauss_kernel_fft.ARRAY_PREFIX, gauss_kernel_fft.ARRAY_SUFFIX_IMREAL))
+	make_gauss_fft_name = lambda rows, cols: common.make_sized_prefix(gauss_kernel_fft.ARRAY_PREFIX, rows, cols, gauss_kernel_fft.ARRAY_SUFFIX_IMREAL)
+	make_gauss_fft_pair = lambda rows, cols: "std::pair<const float *, const float *>{&%s[0][0], &%s[1][0]}" % (make_gauss_fft_name(rows, cols), make_gauss_fft_name(rows, cols))
+	gauss_kernel_fft_names = tabulated_list_delimiter.join(_get_name_list_windows_iter(formatter=make_gauss_fft_pair))
 
 	yield """\
 static constexpr auto kGaussKernelFftMapImReal = makeArray(
