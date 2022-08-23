@@ -1,6 +1,5 @@
 AC_INIT(MosseTables, 0.5)
 AC_PREREQ(2.5)
-AM_INIT_AUTOMAKE(1.8)
 
 dnl Look for python
 
