@@ -4,6 +4,8 @@
 #include <limits>
 #include <cstdlib>
 
+namespace @MOSSENAMESPACE@ {
+
 @MAPS@
 
 void getClosestWindow(unsigned &aRows, unsigned &aCols)
@@ -65,3 +67,4 @@ std::pair<float *, float *> getGaussKernelFft(unsigned aRows, unsigned aCols)
 	return kGaussKernelFftMap[id];
 }
 
+}  // namespace @MOSSENAMESPACE@
