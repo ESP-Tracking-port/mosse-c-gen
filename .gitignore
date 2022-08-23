@@ -2,3 +2,6 @@ __pycache__/
 MosseTables/
 MosseApi.hpp
 MosseApi.cpp
+autom4te.cache/
+config.log
+config.status
