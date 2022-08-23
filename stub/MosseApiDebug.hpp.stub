@@ -13,7 +13,7 @@ void debugmImpl(Ts &&...aArgs)
 }
 
 # define debug(a) std::cout << (#a) << " : " << (a) << std::endl
-# define debugm(...) debugmImpl(# __VA_ARGS__, ##__VA_ARGS__)
+# define debugm(context, ...) debugmImpl(#context, # __VA_ARGS__, ##__VA_ARGS__)
 # define debugstr(a) std::cout << (a) << std::endl;
 #else
 # define debug(...)
