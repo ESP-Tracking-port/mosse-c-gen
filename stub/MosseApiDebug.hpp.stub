@@ -1,0 +1,16 @@
+#if !defined(MOSSE_MOSSEAPIDEBUG_HPP_)
+#define MOSSE_MOSSEAPIDEBUG_HPP_
+
+#if @DEBUGSELECT@
+# include <iostream>
+# define debug(a) std::cout << (#a) << " : " << (a) << std::endl
+# define debugm(a, ...) std::cout << a, ##__VA_ARGS__ << std::endl
+# define debugstr(a) std::cout << (a) << std::endl;
+#else
+# define debug(...)
+# define debugm(...)
+# define debugstr(...)
+#endif
+
+#endif
+

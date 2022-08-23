@@ -1,4 +1,5 @@
 #include "MosseApi.hpp"
+#include "MosseApiDebug.hpp"
 #include "MosseTables/MosseTables.hpp"
 #include <array>
 #include <limits>
