@@ -3,6 +3,11 @@ PYINTERP="@python@"
 build:
 	$(PYINTERP) main.py
 
+testcompile:
+	cp stub/CMakeLists.txt out
+	cp stub/main.cpp out
+	cd out && mkdir -p build && cd build && cmake .. && cmake --build .
+
 clean:
 	rm -rf out/ autom4te.cache/
 	rm -f config.log config.status
