@@ -1,9 +1,9 @@
 PYINTERP="@python@"
 
-build:
+out:
 	$(PYINTERP) main.py
 
-testcompile:
+testcompile: out
 	cp stub/CMakeLists.txt out
 	cp stub/main.cpp out
 	cd out && mkdir -p build && cd build && cmake .. && cmake --build .
@@ -11,3 +11,5 @@ testcompile:
 clean:
 	rm -rf out/ autom4te.cache/
 	rm -f config.log config.status
+
+.PHONY: testcompile clean
