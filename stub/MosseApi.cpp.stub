@@ -40,6 +40,8 @@ void getClosestWindow(unsigned &aRows, unsigned &aCols)
 		{
 			return windowGetDistance(aLhs, ref) < windowGetDistance(aRhs, ref);
 		});
+	aRows = (*itClosest)[0];
+	aCols = (*itClosest)[1];
 }
 
 int checkWindowExists(unsigned aRows, unsigned aCols)
