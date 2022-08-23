@@ -4,6 +4,7 @@ import gauss_kernel
 import hann
 import getter_api
 import os
+import cmakelists
 
 
 GAUSS_KERNEL_GENERATE = False
@@ -46,6 +47,7 @@ def main_header_generate_format_savefile():
 def main():
 	main_header_generate_format_savefile()
 	getter_api.generate_format_savefile()
+	cmakelists.generate_format_savefile()
 
 	if GAUSS_KERNEL_GENERATE:
 		gauss_kernel.generate_format_savefile(*common.IMSIZE_2D, GAUSS_PREFIX)
