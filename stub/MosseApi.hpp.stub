@@ -5,8 +5,8 @@
 
 namespace Mosse {
 
-float *getHann(unsigned rows, unsigned cols);
-std::pair<float *, float *> getGaussKernelFft(unsigned rows, unsigned cols);
+const float *getHann(unsigned rows, unsigned cols);
+std::pair<const float *, const float *> getGaussKernelFft(unsigned rows, unsigned cols);
 void getClosestWindow(unsigned &aRows, unsigned &aCols);
 
 }  // namespace Mosse

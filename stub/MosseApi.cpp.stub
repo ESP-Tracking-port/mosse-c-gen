@@ -3,13 +3,16 @@
 #include <array>
 #include <limits>
 #include <cstdlib>
+#include <type_traits>
 
 namespace @MOSSENAMESPACE@ {
 
 template <class T, class ...Ts>
-static constexpr auto makeArray(T &&a, Ts &&...as) -> std::array<T, 1 + sizeof...(Ts)>
+static constexpr auto makeArray(T &&a, Ts &&...as) -> std::array<typename std::decay<T>::type, 1 + sizeof...(Ts)>
 {
-	return {{a, as...}};
+	using Type = typename std::decay<T>::type;
+	// static_assert(std::is_same<typename std::decay<const float(*)[80]>::type, float **>::value, "");
+	return std::array<Type, 1 + sizeof...(Ts)>{{Type{a}, Type{as}...}};
 }
 
 @MAPS@
@@ -21,7 +24,7 @@ void getClosestWindow(unsigned &aRows, unsigned &aCols)
 	int minCounter = 0;
 	int counter = 0;
 
-	for (const window : kWindowSizes) {
+	for (const auto window : kWindowSizes) {
 		auto diff = abs(window[0] * window[1] - area);
 
 		if (diff < prevDiff) {
@@ -36,7 +39,7 @@ void getClosestWindow(unsigned &aRows, unsigned &aCols)
 	aCols = kWindowSizes[counter][1];
 }
 
-static int checkWindowExists(unsigned aRows, unsigned aCols)
+int checkWindowExists(unsigned aRows, unsigned aCols)
 {
 	int counter = 0;
 
@@ -51,7 +54,7 @@ static int checkWindowExists(unsigned aRows, unsigned aCols)
 	return -1;
 }
 
-static float *getHann(unsigned aRows, unsigned aCols)
+const float *getHann(unsigned aRows, unsigned aCols)
 {
 	int id = checkWindowExists(aRows, aCols);
 
@@ -59,10 +62,10 @@ static float *getHann(unsigned aRows, unsigned aCols)
 		return nullptr;
 	}
 
-	return &kHannMap[id][0][0];
+	return kHannMap[id];
 }
 
-std::pair<float *, float *> getGaussKernelFft(unsigned aRows, unsigned aCols)
+std::pair<const float *, const float *> getGaussKernelFft(unsigned aRows, unsigned aCols)
 {
 	int id = checkWindowExists(aRows, aCols);
 
@@ -70,7 +73,7 @@ std::pair<float *, float *> getGaussKernelFft(unsigned aRows, unsigned aCols)
 		return {nullptr, nullptr};
 	}
 
-	return {&kGaussKernelFftMap[id][0][0], &kGaussKernelFftMap[id][]}
+	return kGaussKernelFftMapImReal[id];
 }
 
 }  // namespace @MOSSENAMESPACE@
