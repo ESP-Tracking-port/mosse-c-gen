@@ -4,4 +4,5 @@ build:
 	$(PYINTERP) main.py
 
 clean:
-	rm -rf out/
+	rm -rf out/ autom4te.cache/
+	rm -f config.log config.status
