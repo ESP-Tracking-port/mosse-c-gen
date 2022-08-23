@@ -6,6 +6,12 @@
 
 namespace @MOSSENAMESPACE@ {
 
+template <class T, class ...Ts>
+static constexpr auto makeArray(T &&a, Ts &&...as) -> std::array<T, 1 + sizeof...(Ts)>
+{
+	return {{a, as...}};
+}
+
 @MAPS@
 
 void getClosestWindow(unsigned &aRows, unsigned &aCols)
@@ -53,7 +59,7 @@ static float *getHann(unsigned aRows, unsigned aCols)
 		return nullptr;
 	}
 
-	return kHannMap[id];
+	return &kHannMap[id][0][0];
 }
 
 std::pair<float *, float *> getGaussKernelFft(unsigned aRows, unsigned aCols)
@@ -64,7 +70,7 @@ std::pair<float *, float *> getGaussKernelFft(unsigned aRows, unsigned aCols)
 		return {nullptr, nullptr};
 	}
 
-	return kGaussKernelFftMap[id];
+	return {&kGaussKernelFftMap[id][0][0], &kGaussKernelFftMap[id][]}
 }
 
 }  // namespace @MOSSENAMESPACE@
