@@ -55,27 +55,27 @@ def _cpp_generate_maps_iter():
 	window_size_pairs = tabulated_list_delimiter.join(_get_name_list_windows_iter(formatter=make_window_size_pair))
 
 	yield """\
-static constexpr auto kWindowSizes = {
+static constexpr auto kWindowSizes = makeArray(
 	%s
-};
+);
 
 """ % window_size_pairs
 
 	hann_names = tabulated_list_delimiter.join(_get_name_list_windows_iter(hann.ARRAY_PREFIX))
 
 	yield """\
-static constexpr auto kHannMap = {
+static constexpr auto kHannMap = makeArray(
 	%s
-};
+);
 
 """ % hann_names
 
 	gauss_kernel_fft_names = tabulated_list_delimiter.join(_get_name_list_windows_iter(gauss_kernel_fft.ARRAY_PREFIX, gauss_kernel_fft.ARRAY_SUFFIX_IMREAL))
 
 	yield """\
-static constexpr auto kGaussKernelFftMapImReal = {
+static constexpr auto kGaussKernelFftMapImReal = makeArray(
 	%s
-};""" % gauss_kernel_fft_names
+);""" % gauss_kernel_fft_names
 
 
 def _header_generate():
