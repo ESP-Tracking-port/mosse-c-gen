@@ -12,11 +12,17 @@ _DNL = "\n\n"
 SOURCE_PREFIX = "MosseApi"
 _MAPS_MARKER = "@MAPS@"
 _NAMESPACE_MARKER = "@MOSSENAMESPACE@"
+_MARKER_DICT = {
+	"@DEBUGSELECT@" : common.DEBUG_SELECT,
+	_NAMESPACE_MARKER: common.CXX_NAMESPACE,
+}
 
 
 def _header_generate_iter():
-	with open(str(pathlib.Path() / "stub" / "MosseApi") + ".hpp.stub", 'r') as f:
-		yield f.read()
+	path = str(pathlib.Path() / "stub" / "MosseApi") + ".hpp.stub"
+	res = common.file_configure_append(path, _MARKER_DICT)
+
+	yield res
 
 
 def _cpp_generate_iter():
