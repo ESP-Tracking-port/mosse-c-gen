@@ -15,7 +15,8 @@ ARRAY_2D_SUFFIX_ROWS = "Height"
 ARRAY_2D_SUFFIX_COLUMNS = "Width"
 ARRAY_1D_SUFFIX_LEN = "Length"
 DEFINE_SENTINEL_PREFIX = "MOSSE"
-GEN_DIR_PREFIX = "MosseTables/"
+OUTPUT_DIR = "out/"  # Directory for storing the generated code
+GEN_DIR_PREFIX = OUTPUT_DIR + "MosseTables/"  # Directory for generated arrays
 
 
 def make_define_sentinel(filename):
