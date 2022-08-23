@@ -5,7 +5,7 @@ dnl Look for python
 
 AC_MSG_CHECKING(--with-python argument)
 AC_ARG_WITH([python],
-	[	--with-python,		Use custom python interpreter],
+	[ --with-python,		Use custom python interpreter],
 	[with_python=$withval],
 	[with_python=python3])
 AC_MSG_RESULT($with_python)
