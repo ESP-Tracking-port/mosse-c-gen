@@ -24,11 +24,16 @@ static constexpr auto makeArray(T &&a, Ts &&...as) -> std::array<typename std::d
 ///
 static float windowGetDistance(const std::array<unsigned, 2> &a, const std::array<unsigned, 2> &b)
 {
-	constexpr auto kWeightAspectRatio = 0.2f;
+	auto a0 = static_cast<float>(a[0]);
+	auto a1 = static_cast<float>(a[1]);
+	auto b0 = static_cast<float>(b[0]);
+	auto b1 = static_cast<float>(b[1]);
+
+	constexpr auto kWeightAspectRatio = 0.3f;
 	constexpr auto kWeightAreaSize = 1 - kWeightAspectRatio;
-	const auto diffAspectRatio = static_cast<float>(a[0]) * b[1] / (a[1] * b[0]);
-	const auto diffAreaSize  = static_cast<float>(a[0]) * a[1] / (b[0] * b[1]);
-	const auto distance = diffAspectRatio * kWeightAspectRatio + diffAreaSize * kWeightAreaSize;
+	const auto diffAspectRatio = pow(a0 - b0 * a1 / b1, 2);  // Compare by aspect ratio numerators, ensure common denominator, raise to the power of 2 to get "px^2" units
+	const auto diffAreaSize = abs(a0 * a1 - b0 * b1);  // Difference in areas, units - "px^2"
+	const auto distance = kWeightAreaSize * diffAspectRatio + kWeightAreaSize * diffAreaSize;
 
 	return distance;
 }
