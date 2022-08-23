@@ -3,13 +3,22 @@
 
 #include <utility>
 
-namespace Mosse {
+#if @DEBUGSELECT@
+# include <iostream>
+# define debug(a) std::cout << (#a) << " : " << (a) << std::endl
+# define debugstr(a) std::cout << (a) << std::endl;
+#else
+# define debug(...)
+# define debugstr(...)
+#endif
+
+namespace @MOSSENAMESPACE@ {
 
 const float *getHann(unsigned rows, unsigned cols);
 std::pair<const float *, const float *> getGaussKernelFft(unsigned rows, unsigned cols);
 void getClosestWindow(unsigned &aRows, unsigned &aCols);
 
-}  // namespace Mosse
+}  // namespace @MOSSENAMESPACE@
 
 #endif
 
