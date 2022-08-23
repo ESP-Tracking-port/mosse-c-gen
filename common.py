@@ -18,12 +18,26 @@ DEFINE_SENTINEL_PREFIX = "MOSSE"
 OUTPUT_DIR = "out/"  # Directory for storing the generated code
 GEN_DIR_PREFIX = OUTPUT_DIR + "MosseTables/"  # Directory for generated arrays
 ARRAY_SUFFIX_RAW = "Raw"
+OUT_LIB_NAME = "mosseapi"
 
 
 def make_define_sentinel(filename):
 	define_sentinel = "%s_%s_" % (DEFINE_SENTINEL_PREFIX, '_'.join(map(lambda s: s.upper(), (filename.split('.')))))
 
 	return "#if !defined(%s)\n#define %s\n\n" % (define_sentinel, define_sentinel), "#endif\n"
+
+
+def file_configure_append(filein, markermap: dict, fileout=None):
+	with open(str(pathlib.Path(filein).resolve()), 'r') as f:
+		content = f.read()
+
+	for k, v in markermap.items():
+		content = content.replace(k, v)
+
+	if fileout is not None:
+		append_file(content, pathlib.Path(fileout).resolve())
+
+	return content
 
 
 def make_sized_prefix(prefix, rows, cols, suffix=None):
