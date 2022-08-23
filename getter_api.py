@@ -5,8 +5,8 @@ import gauss_kernel_fft
 import pathlib
 
 
-HEADER_PREFIX = "MosseApi.hpp"
-CPP_PREFIX = "MosseApi.cpp"
+HEADER_PREFIX = common.OUTPUT_DIR + "MosseApi.hpp"
+CPP_PREFIX = common.OUTPUT_DIR + "MosseApi.cpp"
 _NL = "\n"
 _DNL = "\n\n"
 SOURCE_PREFIX = "MosseApi"
