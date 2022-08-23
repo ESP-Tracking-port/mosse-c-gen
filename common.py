@@ -44,9 +44,9 @@ def format_array_iter(prefix, generator, nrows, ncols, typestr, isexplicitconstr
 		fmt_cb = lambda v: "%.4f" % v
 
 	if nrows > 1:
-		yield "constexpr unsigned %s%s = %d;  // Number of rows\n" % (prefix, ARRAY_2D_SUFFIX_ROWS, nrows)
-		yield "constexpr unsigned %s%s = %d;  // Number of columns\n" % (prefix, ARRAY_2D_SUFFIX_COLUMNS, ncols)
-		yield 'constexpr %s %s[%s%s][%s%s] = {\n' % (typestr, prefix, prefix, ARRAY_2D_SUFFIX_ROWS, prefix, ARRAY_2D_SUFFIX_COLUMNS)
+		yield "constexpr const unsigned %s%s = %d;  // Number of rows\n" % (prefix, ARRAY_2D_SUFFIX_ROWS, nrows)
+		yield "constexpr const unsigned %s%s = %d;  // Number of columns\n" % (prefix, ARRAY_2D_SUFFIX_COLUMNS, ncols)
+		yield 'constexpr const %s %s[%s%s][%s%s] = {\n' % (typestr, prefix, prefix, ARRAY_2D_SUFFIX_ROWS, prefix, ARRAY_2D_SUFFIX_COLUMNS)
 		yield '\t{'
 
 		for cnt, val in enumerate(generator):
@@ -58,8 +58,8 @@ def format_array_iter(prefix, generator, nrows, ncols, typestr, isexplicitconstr
 
 		yield '}\n};\n\n'
 	else:
-		yield "constexpr unsigned %s%s = %d;\n" % (prefix, ARRAY_1D_SUFFIX_LEN, ncols)
-		yield 'constexpr %s %s[%s%s] = {' % (typestr, prefix, prefix, ARRAY_1D_SUFFIX_LEN)
+		yield "constexpr const unsigned %s%s = %d;\n" % (prefix, ARRAY_1D_SUFFIX_LEN, ncols)
+		yield 'constexpr const %s %s[%s%s] = {' % (typestr, prefix, prefix, ARRAY_1D_SUFFIX_LEN)
 
 		for cnt, val in enumerate(generator):
 			yield fmt_cb(val)
