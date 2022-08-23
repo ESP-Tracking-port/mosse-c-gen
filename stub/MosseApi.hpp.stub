@@ -12,3 +12,4 @@ void getClosestWindow(unsigned &aRows, unsigned &aCols);
 }  // namespace Mosse
 
 #endif
+

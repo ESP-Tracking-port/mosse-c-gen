@@ -80,3 +80,4 @@ std::pair<const float *, const float *> getGaussKernelFft(unsigned aRows, unsign
 }
 
 }  // namespace @MOSSENAMESPACE@
+
