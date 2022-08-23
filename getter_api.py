@@ -11,6 +11,7 @@ _NL = "\n"
 _DNL = "\n\n"
 SOURCE_PREFIX = "MosseApi"
 _MAPS_MARKER = "@MAPS@"
+_NAMESPACE_MARKER = "@MOSSENAMESPACE@"
 
 
 def _header_generate_iter():
@@ -23,6 +24,7 @@ def _cpp_generate_iter():
 		content = f.read()
 		maps = _cpp_generate_maps()
 		content = content.replace(_MAPS_MARKER, maps)
+		content = content.replace(_NAMESPACE_MARKER, common.CXX_NAMESPACE)
 
 		yield content
 
