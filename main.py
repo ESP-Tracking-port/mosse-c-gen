@@ -31,7 +31,7 @@ def main_header_generate_format_iter():
 
 	for prefix in prefixes:
 		for windowsize in WINDOW_SIZES_ROWS_COLS:
-			yield "#include \"%s%s\"\n" % (common.GEN_DIR_PREFIX, _make_filename(prefix, windowsize))
+			yield "#include \"%s\"\n" % (_make_filename(prefix, windowsize))
 
 	yield "\n"
 	yield define_after
