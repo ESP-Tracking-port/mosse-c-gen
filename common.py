@@ -17,6 +17,7 @@ ARRAY_1D_SUFFIX_LEN = "Length"
 DEFINE_SENTINEL_PREFIX = "MOSSE"
 OUTPUT_DIR = "out/"  # Directory for storing the generated code
 GEN_DIR_PREFIX = OUTPUT_DIR + "MosseTables/"  # Directory for generated arrays
+ARRAY_SUFFIX_RAW = "Raw"
 
 
 def make_define_sentinel(filename):
@@ -56,7 +57,9 @@ def format_array_iter(prefix, generator, nrows, ncols, typestr, isexplicitconstr
 			yield fmt_cb(val)
 			yield ", "
 
-		yield '}\n};\n\n'
+		yield '}\n};\n'
+		yield 'constexpr const %s *%s%s = &%s[0][0];\n' % (typestr, prefix, ARRAY_SUFFIX_RAW, prefix)
+		yield "\n"
 	else:
 		yield "constexpr const unsigned %s%s = %d;\n" % (prefix, ARRAY_1D_SUFFIX_LEN, ncols)
 		yield 'constexpr const %s %s[%s%s] = {' % (typestr, prefix, prefix, ARRAY_1D_SUFFIX_LEN)
