@@ -7,6 +7,7 @@ import pathlib
 
 HEADER_PREFIX = common.OUTPUT_DIR + "MosseApi.hpp"
 CPP_PREFIX = common.OUTPUT_DIR + "MosseApi.cpp"
+HEADER_DEBUG_PREFIX = common.OUTPUT_DIR + "MosseApiDebug.hpp"
 _NL = "\n"
 _DNL = "\n\n"
 SOURCE_PREFIX = "MosseApi"
@@ -23,6 +24,10 @@ def _header_generate_iter():
 	res = common.file_configure_append(path, _MARKER_DICT)
 
 	yield res
+
+
+def _header_debug_generate():
+	path = common.file_configure_append("stub/MosseApiDebug.hpp.stub", _MARKER_DICT, HEADER_DEBUG_PREFIX)
 
 
 def _cpp_generate_iter():
@@ -99,3 +104,4 @@ def generate_format_savefile():
 	common.append_file(generated, HEADER_PREFIX)
 	generated = _cpp_generate()
 	common.append_file(generated, CPP_PREFIX)
+	_header_debug_generate()
