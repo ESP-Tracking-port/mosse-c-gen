@@ -32,11 +32,27 @@ def _cpp_generate_maps():
 	return ''.join(_cpp_generate_maps_iter())
 
 
+def _get_name_list_windows_iter(prefix=None, suffix=None, formatter=None):
+	"""
+	Iterates over window sizes and generates a formatted version of thos
+
+	If formatter is none, it generates the default sized prefix following the
+	naming scheme implicitly defined by `common.make_shared_prefix` method
+	"""
+	if formatter is None:
+		formatter = lambda rows, cols: common.make_sized_prefix(prefix, rows, cols, suffix)
+
+	make_name = lambda rows, cols: formatter(rows, cols)
+	map_make_names = map(lambda win: make_name(*win), common.WINDOWS)
+
+	return map_make_names
+
+
 def _cpp_generate_maps_iter():
 
+	tabulated_list_delimiter = ",\n\t"
 	make_window_size_pair = lambda rows, cols: "std::array<unsigned, 2>{%d, %d}" % (rows, cols)
-	map_window_size_pair = map(lambda win: make_window_size_pair(*win), common.WINDOWS)
-	window_size_pairs = ',\n\t'.join(map_window_size_pair)
+	window_size_pairs = tabulated_list_delimiter.join(_get_name_list_windows_iter(formatter=make_window_size_pair))
 
 	yield """\
 static constexpr auto kWindowSizes = {
@@ -45,9 +61,7 @@ static constexpr auto kWindowSizes = {
 
 """ % window_size_pairs
 
-	make_hann_name = lambda rows, cols: "%s" % common.make_sized_prefix(hann.ARRAY_PREFIX, rows, cols)
-	map_hann_names = map(lambda win: make_hann_name(*win), common.WINDOWS)
-	hann_names = ',\n\t'.join(map_hann_names)
+	hann_names = tabulated_list_delimiter.join(_get_name_list_windows_iter(hann.ARRAY_PREFIX))
 
 	yield """\
 static constexpr auto kHannMap = {
@@ -56,12 +70,10 @@ static constexpr auto kHannMap = {
 
 """ % hann_names
 
-	make_gauss_kernel_fft_name = lambda rows, cols: "std::pair<float *, float *>{&%s[0][0], &%s[1][0]}" % (common.make_sized_prefix(gauss_kernel_fft.ARRAY_PREFIX, rows, cols), common.make_sized_prefix(gauss_kernel_fft.ARRAY_PREFIX, rows, cols))
-	map_gauss_kernel_fft_names = map(lambda win: make_gauss_kernel_fft_name(*win), common.WINDOWS)
-	gauss_kernel_fft_names = ',\n\t'.join(map_gauss_kernel_fft_names)
+	gauss_kernel_fft_names = tabulated_list_delimiter.join(_get_name_list_windows_iter(gauss_kernel_fft.ARRAY_PREFIX, gauss_kernel_fft.ARRAY_SUFFIX_IMREAL))
 
 	yield """\
-static constexpr auto kGaussKernelFftMap = {
+static constexpr auto kGaussKernelFftMapImReal = {
 	%s
 };""" % gauss_kernel_fft_names
 
