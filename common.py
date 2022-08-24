@@ -135,6 +135,7 @@ def format_array_iter_nd(prefix, arr, typestr, formatter=lambda v: "%.4f" % floa
 
 	yield "constexpr const %s %s%s = " % (typestr, prefix, dims)
 	yield from _format_nested_array(arr, '', formatter)
+	yield "constexpr const %s *%s%s = &%s%s;\n" % (typestr, prefix, ARRAY_SUFFIX_RAW, prefix, ''.join(["[0]" for _ in range(len(arr.shape))]))
 
 
 def append_file(appendix, fname=FNAME):
