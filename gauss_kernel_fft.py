@@ -43,8 +43,8 @@ def generate_format_iter(rows, cols):
 
 	generated = generate(rows, cols)
 
-	yield ''.join(common.format_array_iter(common.make_sized_prefix(ARRAY_PREFIX, cols, rows, ARRAY_SUFFIX_COMPLEX), generated, 1, rows * cols, COMPLEX_TYPESTR, True))
-	yield ''.join(common.format_array_iter(common.make_sized_prefix(ARRAY_PREFIX, cols, rows, ARRAY_SUFFIX_IMREAL), np.concatenate((generated.real, generated.imag)), 2, rows * cols, "float", False))
+	yield ''.join(common.format_array_iter(common.make_sized_prefix(ARRAY_PREFIX, rows, cols, ARRAY_SUFFIX_COMPLEX), generated, 1, rows * cols, COMPLEX_TYPESTR, True))
+	yield ''.join(common.format_array_iter(common.make_sized_prefix(ARRAY_PREFIX, rows, cols, ARRAY_SUFFIX_IMREAL), np.concatenate((generated.real, generated.imag)), 2, rows * cols, "float", False))
 
 	generated = generated.reshape(rows * cols)
 	generated = list(map(lambda v: (v.real, v.imag), generated))
@@ -52,7 +52,7 @@ def generate_format_iter(rows, cols):
 	generated = np.array(generated)
 	generated = generated.reshape(rows, cols, 2)
 
-	yield ''.join(common.format_array_iter_nd(common.make_sized_prefix(ARRAY_PREFIX, cols, rows, ARRAY_SUFFIX_IMREAL_3D), generated, "float"))
+	yield ''.join(common.format_array_iter_nd(common.make_sized_prefix(ARRAY_PREFIX, rows, cols, ARRAY_SUFFIX_IMREAL_3D), generated, "float"))
 	yield common.CXX_NAMESPACE_END
 
 
