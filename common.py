@@ -3,7 +3,7 @@ import pathlib
 import numpy as np
 
 
-SIGMA = 100.0
+SIGMA = 60.0
 IMSIZE_2D = (100, 100)
 IMCENTER = [i // 2 for i in IMSIZE_2D]
 WINDOWS = [(85, 65), (65, 85), (75, 75), (45, 45)]
