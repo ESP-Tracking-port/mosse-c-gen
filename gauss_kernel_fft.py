@@ -8,6 +8,7 @@ import common
 ARRAY_PREFIX = "kGaussKernelFft"
 ARRAY_SUFFIX_COMPLEX = "Complex"
 ARRAY_SUFFIX_IMREAL = "ImReal"
+ARRAY_SUFFIX_IMREAL_3D = "ImReal3d"
 COMPLEX_TYPESTR = "std::complex<float>"
 
 
@@ -32,6 +33,11 @@ def generate(rows, cols):
 	return np.fft.fft(kernel)
 
 
+def complex_decompose(v):
+	yield v.real
+	yield v.imag
+
+
 def generate_format_iter(rows, cols):
 	yield common.CXX_NAMESPACE_BEGIN
 
@@ -39,6 +45,14 @@ def generate_format_iter(rows, cols):
 
 	yield ''.join(common.format_array_iter(common.make_sized_prefix(ARRAY_PREFIX, cols, rows, ARRAY_SUFFIX_COMPLEX), generated, 1, rows * cols, COMPLEX_TYPESTR, True))
 	yield ''.join(common.format_array_iter(common.make_sized_prefix(ARRAY_PREFIX, cols, rows, ARRAY_SUFFIX_IMREAL), np.concatenate((generated.real, generated.imag)), 2, rows * cols, "float", False))
+
+	generated = generated.reshape(rows * cols)
+	generated = list(map(lambda v: (v.real, v.imag), generated))
+	generated = list(common.iter_plain(generated))
+	generated = np.array(generated)
+	generated = generated.reshape(rows, cols, 2)
+
+	yield ''.join(common.format_array_iter_nd(common.make_sized_prefix(ARRAY_PREFIX, cols, rows, ARRAY_SUFFIX_IMREAL_3D), generated, "float"))
 	yield common.CXX_NAMESPACE_END
 
 
