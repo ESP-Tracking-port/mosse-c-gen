@@ -1,5 +1,6 @@
 import os
 import pathlib
+import numpy as np
 
 
 SIGMA = 100.0
@@ -84,6 +85,56 @@ def format_array_iter(prefix, generator, nrows, ncols, typestr, isexplicitconstr
 			yield ", "
 
 		yield '};\n\n'
+
+
+def iter_plain(root):
+	try:
+		for i in root:
+			yield from iter_plain(i)
+	except TypeError:
+		yield root
+
+
+def nparray_check_isnumplain(a):
+	if isinstance(a[0], complex):
+		return True
+
+	try:
+		float(a[0])
+		return True
+	except:
+		return False
+
+
+def _format_nested_array(arr, indent, formatter):
+
+	isnum = nparray_check_isnumplain(arr)
+	yield "%s{\n" % indent
+
+	if isnum:
+		yield indent + '\t'
+		yield ", ".join(map(lambda i: formatter(i), arr))
+	else:
+		for i in range(arr.shape[0]):
+			yield from _format_nested_array(arr[i], indent + '\t', formatter)
+
+	yield "\n%s}" % indent
+
+	if len(indent) > 0:
+		yield ','
+	else:
+		yield ';'
+
+	yield '\n'
+
+
+def format_array_iter_nd(prefix, arr, typestr, formatter=lambda v: "%.4f" % float(v)):
+	arr = np.array(arr)
+	map_fmt_dim = map(lambda d: "[%d]" % d, arr.shape)
+	dims = ''.join(map_fmt_dim)
+
+	yield "constexpr const %s %s%s = " % (typestr, prefix, dims)
+	yield from _format_nested_array(arr, '', formatter)
 
 
 def append_file(appendix, fname=FNAME):
