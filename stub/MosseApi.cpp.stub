@@ -87,5 +87,16 @@ std::pair<const float *, const float *> getGaussKernelFft(unsigned aRows, unsign
 	return kGaussKernelFftMapImReal[id];
 }
 
+const float *getGaussKernelFft3d(unsigned aRows, unsigned aCols)
+{
+	int id = checkWindowExists(aRows, aCols);
+
+	if (id < 0) {
+		return nullptr;
+	}
+
+	return kGaussKernelFftMapImReal3d[id];
+}
+
 }  // namespace @MOSSENAMESPACE@
 
