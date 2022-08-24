@@ -6,7 +6,6 @@ import numpy as np
 SIGMA = 100.0
 IMSIZE_2D = (100, 100)
 IMCENTER = [i // 2 for i in IMSIZE_2D]
-PRECISION = 5
 WINDOWS = [(85, 65), (65, 85), (75, 75), (45, 45)]
 FNAME = "mosse_constants.hpp"
 CXX_NAMESPACE = "Mosse"
@@ -56,9 +55,9 @@ def _format_complex(val):
 
 def format_array_iter(prefix, generator, nrows, ncols, typestr, isexplicitconstr):
 	if isexplicitconstr:
-		fmt_cb = lambda v: "%s(%.4f, %.4f)" % (typestr, v.real, v.imag)
+		fmt_cb = lambda v: "%s(%.12f, %.12f)" % (typestr, v.real, v.imag)
 	else:
-		fmt_cb = lambda v: "%.4f" % v
+		fmt_cb = lambda v: "%.12f" % v
 
 	if nrows > 1:
 		yield "constexpr const unsigned %s%s = %d;  // Number of rows\n" % (prefix, ARRAY_2D_SUFFIX_ROWS, nrows)
@@ -128,7 +127,7 @@ def _format_nested_array(arr, indent, formatter):
 	yield '\n'
 
 
-def format_array_iter_nd(prefix, arr, typestr, formatter=lambda v: "%.4f" % float(v)):
+def format_array_iter_nd(prefix, arr, typestr, formatter=lambda v: "%.12f" % float(v)):
 	arr = np.array(arr)
 	map_fmt_dim = map(lambda d: "[%d]" % d, arr.shape)
 	dims = ''.join(map_fmt_dim)
