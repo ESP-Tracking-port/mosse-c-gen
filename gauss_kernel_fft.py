@@ -29,8 +29,9 @@ def test_fft():
 
 def generate(rows, cols):
 	kernel = np.fromiter(gauss_kernel.generate_iter(rows, cols), float)
+	res = np.fft.fft(kernel)
 
-	return np.fft.fft(kernel)
+	return res
 
 
 def complex_decompose(v):
