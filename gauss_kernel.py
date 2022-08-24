@@ -18,8 +18,8 @@ def generate_iter(sz_row=None, sz_col=None):
 	if sz_row is None or sz_col is None:
 		sz_row, sz_col = IMSIZE_2D
 
-	for row in range(sz_row):
-		for col in range(sz_col):
+	for row in range(sz_col):
+		for col in range(sz_row):
 			center_squared = euclidean_imcenter_squared(row, col, sz_row, sz_col)
 			res = math.exp(center_squared / (-2.0 * SIGMA))
 
