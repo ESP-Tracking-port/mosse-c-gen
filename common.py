@@ -109,16 +109,16 @@ def nparray_check_isnumplain(a):
 def _format_nested_array(arr, indent, formatter):
 
 	isnum = nparray_check_isnumplain(arr)
-	yield "%s{\n" % indent
+	yield "%s{" % indent
 
 	if isnum:
-		yield indent + '\t'
 		yield ", ".join(map(lambda i: formatter(i), arr))
+		yield '}'
 	else:
+		yield '\n'
 		for i in range(arr.shape[0]):
 			yield from _format_nested_array(arr[i], indent + '\t', formatter)
-
-	yield "\n%s}" % indent
+		yield "\n%s}" % indent
 
 	if len(indent) > 0:
 		yield ','
