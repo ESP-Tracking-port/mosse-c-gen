@@ -29,7 +29,7 @@ static float windowGetDistance(const std::array<unsigned, 2> &a, const std::arra
 	auto b0 = static_cast<float>(b[0]);
 	auto b1 = static_cast<float>(b[1]);
 
-	constexpr auto kWeightAspectRatio = 0.3f;
+	constexpr auto kWeightAspectRatio = 0.6f;
 	constexpr auto kWeightAreaSize = 1 - kWeightAspectRatio;
 	const auto diffAspectRatio = pow(a0 - b0 * a1 / b1, 2);  // Compare by aspect ratio numerators, ensure common denominator, raise to the power of 2 to get "px^2" units
 	const auto diffAreaSize = abs(a0 * a1 - b0 * b1);  // Difference in areas, units - "px^2"
