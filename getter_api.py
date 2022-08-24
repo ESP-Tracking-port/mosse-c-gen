@@ -88,7 +88,19 @@ static constexpr auto kHannMap = makeArray(
 	yield """\
 static constexpr auto kGaussKernelFftMapImReal = makeArray(
 	%s
-);""" % gauss_kernel_fft_names
+);
+
+""" % gauss_kernel_fft_names
+
+	make_gauss_fft_name = lambda rows, cols: common.make_sized_prefix(gauss_kernel_fft.ARRAY_PREFIX, rows, cols, gauss_kernel_fft.ARRAY_SUFFIX_IMREAL_3D + common.ARRAY_SUFFIX_RAW)
+	make_gauss_fft_pair = lambda rows, cols: "%s" % (make_gauss_fft_name(rows, cols))
+	gauss_kernel_fft_names = tabulated_list_delimiter.join(_get_name_list_windows_iter(formatter=make_gauss_fft_pair))
+
+	yield """\
+static constexpr auto kGaussKernelFftMapImReal3d = makeArray(
+	%s
+);
+""" % gauss_kernel_fft_names
 
 
 def _header_generate():
