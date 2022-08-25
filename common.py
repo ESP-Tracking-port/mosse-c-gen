@@ -60,9 +60,9 @@ def _format_complex(val):
 
 def format_array_iter(prefix, generator, nrows, ncols, typestr, isexplicitconstr):
 	if isexplicitconstr:
-		fmt_cb = lambda v: "%s(%.12f, %.12f)" % (typestr, v.real, v.imag)
+		fmt_cb = lambda v: "%s(%.20f, %.20f)" % (typestr, v.real, v.imag)
 	else:
-		fmt_cb = lambda v: "%.12f" % v
+		fmt_cb = lambda v: "%.20f" % v
 
 	if nrows > 1:
 		yield "constexpr const unsigned %s%s = %d;  // Number of rows\n" % (prefix, ARRAY_2D_SUFFIX_ROWS, nrows)
@@ -132,7 +132,7 @@ def _format_nested_array(arr, indent, formatter):
 	yield '\n'
 
 
-def format_array_iter_nd(prefix, arr, typestr, formatter=lambda v: "%.12f" % float(v)):
+def format_array_iter_nd(prefix, arr, typestr, formatter=lambda v: "%.20f" % float(v)):
 	arr = np.array(arr)
 	map_fmt_dim = map(lambda d: "[%d]" % d, arr.shape)
 	dims = ''.join(map_fmt_dim)
