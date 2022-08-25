@@ -6,7 +6,7 @@ import numpy as np
 SIGMA = 100.0
 IMSIZE_2D = (100, 100)
 IMCENTER = [i // 2 for i in IMSIZE_2D]
-WINDOWS = [(85, 65)]
+WINDOWS = [(85, 65), (65, 85), (75, 75)]
 FNAME = "mosse_constants.hpp"
 CXX_NAMESPACE = "Mosse"
 CXX_NAMESPACE_BEGIN = "namespace %s {\n" % CXX_NAMESPACE
