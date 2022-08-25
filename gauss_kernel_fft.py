@@ -27,11 +27,37 @@ def test_fft():
 	assert(all(b_fft[10:] == a_fft[10:30]))
 
 
-def generate(rows, cols):
-	kernel = np.fromiter(gauss_kernel.generate_iter(rows, cols), float)
-	res = np.fft.fft(kernel)
+def get_gaussian_map(rows, cols):
+	'''
+	returns the gaussian map response
+	'''
 
-	return res
+	x, y, w, h = 0, 0, cols, rows
+	center_x = x + w/2
+	center_y = y + h/2
+
+	# create a rectangular grid out of two given one-dimensional arrays
+	xx, yy = np.meshgrid(np.arange(x, x+w), np.arange(y, y+h))
+
+	# calculating distance of each pixel from roi center
+	dist = (np.square(xx - center_x) + np.square(yy - center_y)) \
+		/ (2 * common.SIGMA)
+
+	response = np.exp(-dist)
+	# response = (response - response.min()) / (response.max() - response.min())
+
+	return response
+
+
+def generate(rows, cols):
+	'''
+	returns the fft2 (2D Discrete Fast Fourier Transform) of the gaussian response map
+	'''
+
+	g = get_gaussian_map(rows, cols)
+	g_fft = np.fft.fft2(g)
+
+	return g_fft.flatten()
 
 
 def complex_decompose(v):
