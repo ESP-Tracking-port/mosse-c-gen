@@ -6,7 +6,7 @@ import numpy as np
 SIGMA = 100.0
 IMSIZE_2D = (100, 100)
 IMCENTER = [i // 2 for i in IMSIZE_2D]
-WINDOWS = [(86, 64), (64, 86), (74, 74)]
+WINDOWS = [(64, 64), (64, 32), (32, 64)]
 FNAME = "mosse_constants.hpp"
 CXX_NAMESPACE = "Mosse"
 CXX_NAMESPACE_BEGIN = "namespace %s {\n" % CXX_NAMESPACE
@@ -28,11 +28,10 @@ if RADIX_FFT2:
 		for c in w:
 			assert c > 1
 
-			while c > 0:
+			while not c & 1:
 				c = c >> 1
 
-				if c & 1:
-					assert c & 1 == c
+			assert c & 1 == c
 
 
 def iterable_print(it):
