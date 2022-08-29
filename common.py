@@ -6,7 +6,7 @@ import numpy as np
 SIGMA = 100.0
 IMSIZE_2D = (100, 100)
 IMCENTER = [i // 2 for i in IMSIZE_2D]
-WINDOWS = [(85, 65), (65, 85), (75, 75)]
+WINDOWS = [(86, 64), (64, 86), (74, 74)]
 FNAME = "mosse_constants.hpp"
 CXX_NAMESPACE = "Mosse"
 CXX_NAMESPACE_BEGIN = "namespace %s {\n" % CXX_NAMESPACE
@@ -20,6 +20,13 @@ GEN_DIR_PREFIX = OUTPUT_DIR + "MosseTables/"  # Directory for generated arrays
 ARRAY_SUFFIX_RAW = "Raw"
 OUT_LIB_NAME = "mosseapi"
 DEBUG_SELECT = "1"
+RADIX_FFT2 = True  # Prepare window sizes for being used by radix FFT2 transformation
+
+
+if RADIX_FFT2:
+	for w in WINDOWS:
+		for c in w:
+			assert c % 2 == 0
 
 
 def iterable_print(it):
