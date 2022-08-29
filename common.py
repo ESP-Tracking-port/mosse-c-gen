@@ -26,7 +26,7 @@ RADIX_FFT2 = True  # Prepare window sizes for being used by radix FFT2 transform
 if RADIX_FFT2:
 	for w in WINDOWS:
 		for c in w:
-			assert c % 2 == 0
+			assert c % 2 == 0  # Radix 2 FFT requries signal length to be a mult. of 2
 
 
 def iterable_print(it):
