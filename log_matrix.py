@@ -1,9 +1,10 @@
 """
-Generates a table of logarithms for integers from 1 to 255. Since only 8 bits
-unsigned grayscales are expected, it is faster to use a relatively small
-precompiled matrix than compute the entire logarithm. Considering that
-preprocessing is performed on each incoming frame, a substantial increase in
-performance is expected
+Generates a table of logarithms for integers from 1 to 256. Since only 8 bits
+unsigned grayscales are expected, it is better to use a relatively small
+precompiled matrix than compute the entire logarithm.
+
+Considering that preprocessing is performed on each incoming frame, a
+substantial increase in performance is expected
 """
 
 import common
