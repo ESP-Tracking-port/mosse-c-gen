@@ -98,5 +98,10 @@ const float *getGaussKernelFft3d(unsigned aRows, unsigned aCols)
 	return kGaussKernelFftMapImReal3d[id];
 }
 
+const float *getLogTable8bit()  ///< Returns a float log table for integers from 1 to 256
+{
+	return @LOG_TABLE_RAW@;
+}
+
 }  // namespace @MOSSENAMESPACE@
 
