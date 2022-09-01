@@ -5,6 +5,7 @@ import hann
 import getter_api
 import os
 import cmakelists
+import log_matrix
 
 
 GAUSS_KERNEL_GENERATE = False
@@ -48,6 +49,7 @@ def main():
 	main_header_generate_format_savefile()
 	getter_api.generate_format_savefile()
 	cmakelists.generate_format_savefile()
+	log_matrix.generate_format_savefile()
 
 	if GAUSS_KERNEL_GENERATE:
 		gauss_kernel.generate_format_savefile(*common.IMSIZE_2D, GAUSS_PREFIX)
