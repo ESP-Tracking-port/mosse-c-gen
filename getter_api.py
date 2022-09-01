@@ -35,6 +35,7 @@ def _header_debug_generate():
 def _cpp_generate_iter():
 	filename = str(pathlib.Path() / "stub" / "MosseApi") + ".cpp.stub"
 	maps = _cpp_generate_maps()
+	_MARKER_DICT[_MAPS_MARKER] = maps
 
 	yield common.file_configure_append(filename, _MARKER_DICT)
 
