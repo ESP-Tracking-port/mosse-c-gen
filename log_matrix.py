@@ -12,7 +12,9 @@ import numpy as np
 
 
 ARRAY_PREFIX = "kLogMatrix8bit"
-FILENAME = common.GEN_DIR_PREFIX + "LogMatrix.hpp"
+FILENAME = "LogMatrix.hpp"
+INCLUDE_PATH = FILENAME
+_GENERATED_FILENAME = common.OUTPUT_DIR + common.TABLES_DIR_PREFIX + FILENAME
 _LOG_INFIMUM = 1
 _LOG_SUPREMUM = 257
 
@@ -29,4 +31,4 @@ def generate_format_iter():
 
 def generate_format_savefile():
 	for i in generate_format_iter():
-		common.append_file(i, FILENAME)
+		common.append_file(i, _GENERATED_FILENAME)
