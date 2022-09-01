@@ -35,6 +35,7 @@ def main_header_generate_format_iter():
 		for windowsize in WINDOW_SIZES_ROWS_COLS:
 			yield "#include \"%s\"\n" % (_make_filename(prefix, windowsize))
 
+	yield "#include \"%s\"\n" % log_matrix.INCLUDE_PATH
 	yield "\n"
 	yield define_after
 	yield "\n"
