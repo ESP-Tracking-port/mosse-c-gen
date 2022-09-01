@@ -3,6 +3,7 @@ import main
 import hann
 import gauss_kernel_fft
 import pathlib
+import log_matrix
 
 
 HEADER_PREFIX = common.OUTPUT_DIR + "MosseApi.hpp"
@@ -16,6 +17,7 @@ _NAMESPACE_MARKER = "@MOSSENAMESPACE@"
 _MARKER_DICT = {
 	"@DEBUGSELECT@" : common.DEBUG_SELECT,
 	_NAMESPACE_MARKER: common.CXX_NAMESPACE,
+	"@LOG_TABLE_RAW@": log_matrix.ARRAY_PREFIX,
 }
 
 
@@ -31,13 +33,10 @@ def _header_debug_generate():
 
 
 def _cpp_generate_iter():
-	with open(str(pathlib.Path() / "stub" / "MosseApi") + ".cpp.stub", 'r') as f:
-		content = f.read()
-		maps = _cpp_generate_maps()
-		content = content.replace(_MAPS_MARKER, maps)
-		content = content.replace(_NAMESPACE_MARKER, common.CXX_NAMESPACE)
+	filename = str(pathlib.Path() / "stub" / "MosseApi") + ".cpp.stub"
+	maps = _cpp_generate_maps()
 
-		yield content
+	yield common.file_configure_append(filename, _MARKER_DICT)
 
 def _cpp_generate_maps():
 	return ''.join(_cpp_generate_maps_iter())
