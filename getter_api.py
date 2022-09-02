@@ -9,8 +9,6 @@ import log_matrix
 HEADER_PREFIX = common.OUTPUT_DIR + "MosseApi.hpp"
 CPP_PREFIX = common.OUTPUT_DIR + "MosseApi.cpp"
 HEADER_DEBUG_PREFIX = common.OUTPUT_DIR + "MosseApiDebug.hpp"
-_NL = "\n"
-_DNL = "\n\n"
 SOURCE_PREFIX = "MosseApi"
 _MAPS_MARKER = "@MAPS@"
 _NAMESPACE_MARKER = "@MOSSENAMESPACE@"
