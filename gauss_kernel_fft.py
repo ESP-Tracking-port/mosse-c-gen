@@ -10,7 +10,7 @@ ARRAY_SUFFIX_COMPLEX = "Complex"
 ARRAY_SUFFIX_IMREAL = "ImReal"
 ARRAY_SUFFIX_IMREAL_3D = "ImReal3d"
 COMPLEX_TYPESTR = "std::complex<float>"
-SCALED = [
+SCALED = [  # Scale, suffix
 	(0.125, "ImReal3dScaled125"),
 ]
 
