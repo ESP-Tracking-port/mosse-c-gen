@@ -14,18 +14,33 @@ _DNL = "\n\n"
 SOURCE_PREFIX = "MosseApi"
 _MAPS_MARKER = "@MAPS@"
 _NAMESPACE_MARKER = "@MOSSENAMESPACE@"
+_GAUSS_KERNEL_GETTERS_DECL = "@GAUSS_KERNEL_SCALED_GETTERS_DECL@"
 _MARKER_DICT = {
 	"@DEBUGSELECT@" : common.DEBUG_SELECT,
 	_NAMESPACE_MARKER: common.CXX_NAMESPACE,
 	"@LOG_TABLE_RAW@": log_matrix.ARRAY_PREFIX,
+	_GAUSS_KERNEL_GETTERS_DECL: "",
 }
 
 
 def _header_generate_iter():
+	_header_gauss_kernel_getters_generate()
 	path = str(pathlib.Path() / "stub" / "MosseApi") + ".hpp.stub"
 	res = common.file_configure_append(path, _MARKER_DICT)
 
 	yield res
+
+
+def _header_gauss_kernel_getters_generate_iter():
+	_MARKER_DICT[_GAUSS_KERNEL_GETTERS_DECL] = ""
+
+	for scale, suffix in gauss_kernel_fft.SCALED:
+		yield "const float *getGaussKernelFft%s(unsigned &aRows, unsigned &aCols);\n" % suffix
+
+
+def _header_gauss_kernel_getters_generate():
+	_MARKER_DICT[_GAUSS_KERNEL_GETTERS_DECL] = ''.join(
+		_header_gauss_kernel_getters_generate_iter())
 
 
 def _header_debug_generate():
