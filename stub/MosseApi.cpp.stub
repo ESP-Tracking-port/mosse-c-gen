@@ -103,5 +103,6 @@ const float *getLogTable8bit()  ///< Returns a float log table for integers from
 	return @LOG_TABLE_RAW@;
 }
 
-}  // namespace @MOSSENAMESPACE@
+@GAUSS_KERNEL_GETTERS_DEF@
 
+}  // namespace @MOSSENAMESPACE@
