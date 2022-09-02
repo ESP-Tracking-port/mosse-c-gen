@@ -15,12 +15,14 @@ SOURCE_PREFIX = "MosseApi"
 _MAPS_MARKER = "@MAPS@"
 _NAMESPACE_MARKER = "@MOSSENAMESPACE@"
 _GAUSS_KERNEL_GETTERS_DECL = "@GAUSS_KERNEL_SCALED_GETTERS_DECL@"
+_GAUSS_KERNEL_GETTERS_DEF_MARKER = "@GAUSS_KERNEL_GETTERS_DEF@"
 _MARKER_DICT = {
 	"@DEBUGSELECT@" : common.DEBUG_SELECT,
 	_NAMESPACE_MARKER: common.CXX_NAMESPACE,
 	"@LOG_TABLE_RAW@": log_matrix.ARRAY_PREFIX,
 	_GAUSS_KERNEL_GETTERS_DECL: "",
 }
+_GAUSS_KERNEL_GETTER_PREFIX = "getGaussKernelFft"
 
 
 def _header_generate_iter():
@@ -35,7 +37,7 @@ def _header_gauss_kernel_getters_generate_iter():
 	_MARKER_DICT[_GAUSS_KERNEL_GETTERS_DECL] = ""
 
 	for scale, suffix in gauss_kernel_fft.SCALED:
-		yield "const float *getGaussKernelFft%s(unsigned &aRows, unsigned &aCols);\n" % suffix
+		yield "const float *%s%s(unsigned &aRows, unsigned &aCols);\n" % (_GAUSS_KERNEL_GETTER_PREFIX, suffix)
 
 
 def _header_gauss_kernel_getters_generate():
@@ -51,8 +53,31 @@ def _cpp_generate_iter():
 	filename = str(pathlib.Path() / "stub" / "MosseApi") + ".cpp.stub"
 	maps = _cpp_generate_maps()
 	_MARKER_DICT[_MAPS_MARKER] = maps
+	_MARKER_DICT[_GAUSS_KERNEL_GETTERS_DEF_MARKER] =_cpp_generate_getters()
 
 	yield common.file_configure_append(filename, _MARKER_DICT)
+
+
+def _cpp_generate_getters():
+
+	def _cpp_generate_getters_iter():
+		for scale, suffix in gauss_kernel_fft.SCALED:
+			yield """\
+const float *%s%s(unsigned &aRows, unsigned &aCols)
+{
+	int id = checkWindowExists(aRows, aCols);
+
+	if (id < 0) {
+		return nullptr;
+	}
+
+	return %s%s[id];
+}
+
+""" % (_GAUSS_KERNEL_GETTER_PREFIX, suffix, gauss_kernel_fft.ARRAY_PREFIX, suffix)
+
+	return ''.join(_cpp_generate_getters_iter())
+
 
 def _cpp_generate_maps():
 	return ''.join(_cpp_generate_maps_iter())

@@ -19,6 +19,8 @@ static constexpr auto makeArray(T &&a, Ts &&...as) -> std::array<typename std::d
 
 @MAPS@
 
+@GAUSS_KERNEL_GETTERS_DEF@
+
 /// \brief Compares two window size matrices using weighted preferences
 /// regarding aspect ratio and difference in area sizes
 ///
