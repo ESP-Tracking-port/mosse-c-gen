@@ -96,6 +96,18 @@ static constexpr auto kHannMap = makeArray(
 
 """ % hann_names
 
+	for scale, suffix in gauss_kernel_fft.SCALED:
+		gauss_kernel_fft_names_scaled = tabulated_list_delimiter.join(
+			_get_name_list_windows_iter(gauss_kernel_fft.ARRAY_PREFIX, suffix + common.ARRAY_SUFFIX_RAW)
+		)
+
+		yield """\
+static constexpr auto %s%s = makeArray(
+	%s
+);
+
+""" % (gauss_kernel_fft.ARRAY_PREFIX, suffix, gauss_kernel_fft_names_scaled)
+
 	make_gauss_fft_name = lambda rows, cols: common.make_sized_prefix(gauss_kernel_fft.ARRAY_PREFIX, rows, cols, gauss_kernel_fft.ARRAY_SUFFIX_IMREAL)
 	make_gauss_fft_pair = lambda rows, cols: "std::pair<const float *, const float *>{&%s[0][0], &%s[1][0]}" % (make_gauss_fft_name(rows, cols), make_gauss_fft_name(rows, cols))
 	gauss_kernel_fft_names = tabulated_list_delimiter.join(_get_name_list_windows_iter(formatter=make_gauss_fft_pair))
