@@ -10,6 +10,9 @@ ARRAY_SUFFIX_COMPLEX = "Complex"
 ARRAY_SUFFIX_IMREAL = "ImReal"
 ARRAY_SUFFIX_IMREAL_3D = "ImReal3d"
 COMPLEX_TYPESTR = "std::complex<float>"
+SCALED = [
+	(0.125, "ImReal3dScaled125"),
+]
 
 
 def test_fft():
@@ -80,6 +83,10 @@ def generate_format_iter(rows, cols):
 	generated = generated.reshape(rows, cols, 2)
 
 	yield ''.join(common.format_array_iter_nd(common.make_sized_prefix(ARRAY_PREFIX, rows, cols, ARRAY_SUFFIX_IMREAL_3D), generated, "float"))
+
+	for scale, suffix in SCALED:
+		yield ''.join(common.format_array_iter_nd(common.make_sized_prefix(ARRAY_PREFIX, rows, cols, suffix), generated * scale, "float"))
+
 	yield common.CXX_NAMESPACE_END
 
 
