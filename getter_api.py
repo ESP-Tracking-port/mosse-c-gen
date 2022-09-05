@@ -35,7 +35,7 @@ def _header_gauss_kernel_getters_generate_iter():
 	_MARKER_DICT[_GAUSS_KERNEL_GETTERS_DECL] = ""
 
 	for scale, suffix in gauss_kernel_fft.SCALED:
-		yield "const float *%s%s(unsigned &aRows, unsigned &aCols);\n" % (_GAUSS_KERNEL_GETTER_PREFIX, suffix)
+		yield "const float *%s%s(unsigned aRows, unsigned aCols);\n" % (_GAUSS_KERNEL_GETTER_PREFIX, suffix)
 
 
 def _header_gauss_kernel_getters_generate():
