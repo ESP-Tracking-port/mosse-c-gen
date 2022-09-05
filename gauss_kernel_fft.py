@@ -10,7 +10,7 @@ ARRAY_SUFFIX_COMPLEX = "Complex"
 ARRAY_SUFFIX_IMREAL = "ImReal"
 ARRAY_SUFFIX_IMREAL_3D = "ImReal3d"
 COMPLEX_TYPESTR = "std::complex<float>"
-SCALED = [  # Scale, suffix
+SCALED_3D = [  # Scale, suffix
 	(0.125, "3dScaled125"),
 ]
 
@@ -84,7 +84,7 @@ def generate_format_iter(rows, cols):
 
 	yield ''.join(common.format_array_iter_nd(common.make_sized_prefix(ARRAY_PREFIX, rows, cols, ARRAY_SUFFIX_IMREAL_3D), generated, "float"))
 
-	for scale, suffix in SCALED:
+	for scale, suffix in SCALED_3D:
 		yield ''.join(common.format_array_iter_nd(common.make_sized_prefix(ARRAY_PREFIX, rows, cols, suffix), generated * scale, "float"))
 
 	yield common.CXX_NAMESPACE_END
