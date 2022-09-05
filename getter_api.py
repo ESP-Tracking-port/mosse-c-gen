@@ -62,8 +62,9 @@ def _cpp_generate_iter():
 def _cpp_generate_getters():
 
 	def _cpp_generate_getters_iter():
-		for scale, suffix in gauss_kernel_fft.SCALED_3D:
-			yield """\
+		for sc in [gauss_kernel_fft.SCALED_3D, gauss_kernel_fft.SCALED]:
+			for scale, suffix in sc:
+				yield """\
 const float *%s%s(unsigned &aRows, unsigned &aCols)
 {
 	int id = checkWindowExists(aRows, aCols);
