@@ -12,7 +12,7 @@ HEADER_DEBUG_PREFIX = common.OUTPUT_DIR + "MosseApiDebug.hpp"
 SOURCE_PREFIX = "MosseApi"
 _MAPS_MARKER = "@MAPS@"
 _NAMESPACE_MARKER = "@MOSSENAMESPACE@"
-_GAUSS_KERNEL_GETTERS_DECL = "@GAUSS_KERNEL_SCALED_GETTERS_DECL@"
+_GAUSS_KERNEL_GETTERS_DECL = "@GAUSS_KERNEL_SCALED_3D_GETTERS_DECL@"
 _GAUSS_KERNEL_GETTERS_DEF_MARKER = "@GAUSS_KERNEL_GETTERS_DEF@"
 _MARKER_DICT = {
 	"@DEBUGSELECT@" : common.DEBUG_SELECT,
@@ -34,7 +34,7 @@ def _header_generate_iter():
 def _header_gauss_kernel_getters_generate_iter():
 	_MARKER_DICT[_GAUSS_KERNEL_GETTERS_DECL] = ""
 
-	for scale, suffix in gauss_kernel_fft.SCALED:
+	for scale, suffix in gauss_kernel_fft.SCALED_3D:
 		yield "const float *%s%s(unsigned aRows, unsigned aCols);\n" % (_GAUSS_KERNEL_GETTER_PREFIX, suffix)
 
 
@@ -59,7 +59,7 @@ def _cpp_generate_iter():
 def _cpp_generate_getters():
 
 	def _cpp_generate_getters_iter():
-		for scale, suffix in gauss_kernel_fft.SCALED:
+		for scale, suffix in gauss_kernel_fft.SCALED_3D:
 			yield """\
 const float *%s%s(unsigned &aRows, unsigned &aCols)
 {
@@ -119,7 +119,7 @@ static constexpr auto kHannMap = makeArray(
 
 """ % hann_names
 
-	for scale, suffix in gauss_kernel_fft.SCALED:
+	for scale, suffix in gauss_kernel_fft.SCALED_3D:
 		gauss_kernel_fft_names_scaled = tabulated_list_delimiter.join(
 			_get_name_list_windows_iter(gauss_kernel_fft.ARRAY_PREFIX, suffix + common.ARRAY_SUFFIX_RAW)
 		)
