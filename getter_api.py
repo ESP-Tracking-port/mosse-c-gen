@@ -37,6 +37,9 @@ def _header_gauss_kernel_getters_generate_iter():
 	for scale, suffix in gauss_kernel_fft.SCALED_3D:
 		yield "const float *%s%s(unsigned aRows, unsigned aCols);\n" % (_GAUSS_KERNEL_GETTER_PREFIX, suffix)
 
+	for scale, suffix in gauss_kernel_fft.SCALED:
+		yield "const float *%s%s(unsigned aRows, unsigned aCols);\n" % (_GAUSS_KERNEL_GETTER_PREFIX, suffix)
+
 
 def _header_gauss_kernel_getters_generate():
 	_MARKER_DICT[_GAUSS_KERNEL_GETTERS_DECL] = ''.join(
