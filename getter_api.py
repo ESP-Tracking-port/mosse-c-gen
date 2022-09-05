@@ -123,12 +123,13 @@ static constexpr auto kHannMap = makeArray(
 
 """ % hann_names
 
-	for scale, suffix in gauss_kernel_fft.SCALED_3D:
-		gauss_kernel_fft_names_scaled = tabulated_list_delimiter.join(
-			_get_name_list_windows_iter(gauss_kernel_fft.ARRAY_PREFIX, suffix + common.ARRAY_SUFFIX_RAW)
-		)
+	for sc in [gauss_kernel_fft.SCALED, gauss_kernel_fft.SCALED_3D]:
+		for scale, suffix in sc:
+			gauss_kernel_fft_names_scaled = tabulated_list_delimiter.join(
+				_get_name_list_windows_iter(gauss_kernel_fft.ARRAY_PREFIX, suffix + common.ARRAY_SUFFIX_RAW)
+			)
 
-		yield """\
+			yield """\
 static constexpr auto %s%s = makeArray(
 	%s
 );
