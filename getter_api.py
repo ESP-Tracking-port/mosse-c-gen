@@ -65,7 +65,7 @@ def _cpp_generate_getters():
 		for sc in [gauss_kernel_fft.SCALED_3D, gauss_kernel_fft.SCALED]:
 			for scale, suffix in sc:
 				yield """\
-const float *%s%s(unsigned &aRows, unsigned &aCols)
+const float *%s%s(unsigned aRows, unsigned aCols)
 {
 	int id = checkWindowExists(aRows, aCols);
 
