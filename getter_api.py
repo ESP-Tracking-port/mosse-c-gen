@@ -40,6 +40,9 @@ def _header_gauss_kernel_getters_generate_iter():
 	for scale, suffix in gauss_kernel_fft.SCALED:
 		yield "const float *%s%s(unsigned aRows, unsigned aCols);\n" % (_GAUSS_KERNEL_GETTER_PREFIX, suffix)
 
+	for sc in gauss_kernel_fft.SCALED_GENERIC:
+		yield "const float *%s%s(unsigned aRows, unsigned aCols);\n" % (_GAUSS_KERNEL_GETTER_PREFIX, sc.suffix)
+
 
 def _header_gauss_kernel_getters_generate():
 	_MARKER_DICT[_GAUSS_KERNEL_GETTERS_DECL] = ''.join(
@@ -62,6 +65,21 @@ def _cpp_generate_iter():
 def _cpp_generate_getters():
 
 	def _cpp_generate_getters_iter():
+		for sc in gauss_kernel_fft.SCALED_GENERIC:
+			yield """\
+const float *%s%s(unsigned aRows, unsigned aCols)
+{
+	int id = checkWindowExists(aRows, aCols);
+
+	if (id < 0) {
+		return nullptr;
+	}
+
+	return %s%s[id];
+}
+
+""" % (_GAUSS_KERNEL_GETTER_PREFIX, sc.suffix, sc.prefix, sc.suffix)
+
 		for sc in [gauss_kernel_fft.SCALED_3D, gauss_kernel_fft.SCALED]:
 			for scale, suffix in sc:
 				yield """\
@@ -122,6 +140,17 @@ static constexpr auto kHannMap = makeArray(
 );
 
 """ % hann_names
+
+	for sc in gauss_kernel_fft.SCALED_GENERIC:
+		gauss_kernel_fft_names_scaled = tabulated_list_delimiter.join(
+			_get_name_list_windows_iter(sc.prefix, sc.suffix + common.ARRAY_SUFFIX_RAW)
+		)
+		yield """\
+static constexpr auto %s%s = makeArray(
+	%s
+);
+
+""" % (sc.prefix, sc.suffix, gauss_kernel_fft_names_scaled)
 
 	for sc in [gauss_kernel_fft.SCALED, gauss_kernel_fft.SCALED_3D]:
 		for scale, suffix in sc:
