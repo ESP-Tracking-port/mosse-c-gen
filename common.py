@@ -24,6 +24,15 @@ DEBUG_SELECT = "1"
 RADIX_FFT2 = True  # Prepare window sizes for being used by radix FFT2 transformation
 
 
+class ScaledGen:
+
+	def __init__(self, scale, prefix, suffix, generator=None):
+		self.scale = scale
+		self.suffix = suffix
+		self.generator = generator
+		self.prefix = prefix
+
+
 if RADIX_FFT2:
 	for w in WINDOWS:
 		for c in w:
