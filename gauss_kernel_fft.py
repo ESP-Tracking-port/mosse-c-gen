@@ -6,17 +6,6 @@ import common
 
 
 ARRAY_PREFIX = "kGaussKernelFft"
-
-
-class ScaledGen:
-
-	def __init__(self, scale, suffix, generator=None, prefix=ARRAY_PREFIX):
-		self.scale = scale
-		self.suffix = suffix
-		self.generator = generator
-		self.prefix = prefix
-
-
 ARRAY_SUFFIX_COMPLEX = "Complex"
 ARRAY_SUFFIX_IMREAL = "ImReal"
 ARRAY_SUFFIX_IMREAL_3D = "ImReal3d"
@@ -28,7 +17,7 @@ SCALED_3D = [  # Scale, suffix
 	(0.125, "3dScaled125"),
 ]
 SCALED_GENERIC = [
-	ScaledGen(scale=1, suffix=ARRAY_SUFFIX_IMREAL),
+	common.ScaledGen(scale=1, suffix=ARRAY_SUFFIX_IMREAL, prefix=ARRAY_PREFIX),
 ]
 
 
