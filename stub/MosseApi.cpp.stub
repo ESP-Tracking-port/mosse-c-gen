@@ -76,17 +76,6 @@ const float *getHann(unsigned aRows, unsigned aCols)
 	return kHannMap[id];
 }
 
-std::pair<const float *, const float *> getGaussKernelFft(unsigned aRows, unsigned aCols)
-{
-	int id = checkWindowExists(aRows, aCols);
-
-	if (id < 0) {
-		return {nullptr, nullptr};
-	}
-
-	return kGaussKernelFftMapImReal[id];
-}
-
 const float *getGaussKernelFft3d(unsigned aRows, unsigned aCols)
 {
 	int id = checkWindowExists(aRows, aCols);
