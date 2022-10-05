@@ -6,7 +6,7 @@ import numpy as np
 SIGMA = 100.0
 IMSIZE_2D = (100, 100)
 IMCENTER = [i // 2 for i in IMSIZE_2D]
-WINDOWS = [(64, 64), (64, 32), (32, 64)]
+WINDOWS = [(50, 50)]
 FNAME = "mosse_constants.hpp"
 CXX_NAMESPACE = "Mosse"
 CXX_NAMESPACE_BEGIN = "namespace %s {\n" % CXX_NAMESPACE
@@ -21,7 +21,7 @@ GEN_DIR_PREFIX = OUTPUT_DIR + TABLES_DIR_PREFIX  # Directory for generated array
 ARRAY_SUFFIX_RAW = "Raw"
 OUT_LIB_NAME = "mosseapi"
 DEBUG_SELECT = "1"
-RADIX_FFT2 = True  # Prepare window sizes for being used by radix FFT2 transformation
+RADIX_FFT2 = False  # Prepare window sizes for being used by radix FFT2 transformation
 
 
 class ScaledGen:
